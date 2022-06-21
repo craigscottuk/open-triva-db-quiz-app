@@ -1,7 +1,10 @@
 import { React, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
+import Answers from './components/Answers';
 import Error from './components/Error';
 import Loader from './components/Loader';
+import Question from './components/Question';
+import Stats from './components/Stats';
 
 export default function App() {
   const [quizData, setQuizData] = useState('');
@@ -11,7 +14,7 @@ export default function App() {
   function Game() {}
   const [gameState, setGameState] = useState({
     score: 0,
-    quesNum: 0,
+    quizDataIndex: 0,
     isGameOver: false,
   });
 
@@ -44,8 +47,8 @@ export default function App() {
 
   // // console.log(quizData);
   // quizData &&
-  //   quizData.forEach((quizQues, index) => {
-  //     const { question, correct_answer, incorrect_answers } = quizQues;
+  //   quizData.forEach((quizQuestion, index) => {
+  //     const { question, correct_answer, incorrect_answers } = quizQuestion;
   //     const allAnswers = shuffle([correct_answer, ...incorrect_answers]);
   //     console.log(index);
   //     console.log(question);
@@ -59,17 +62,27 @@ export default function App() {
 
   // console.log(quizData);
 
-  const { score, quesNum, isGameOver } = gameState;
-  const quizQues = quizData[quesNum];
+  const { score, quizDataIndex, isGameOver } = gameState;
+  const quizQuestion = quizData[quizDataIndex];
+  const questionNum = quizDataIndex + 1;
+  const totalQuestions = quizData.length;
 
   return (
     <div className='app'>
       {isError && <Error error={isError} />}
       {isLoading && <Loader isLoading={isLoading} />}
-      {quizData && <p>{score}</p>}
-      {quizData && <p>{quesNum}</p>}
-      {quizData && <p>{isGameOver ? 'Game is over' : 'Game is not over'}</p>}
-      {quizData && <p>{quizQues.question}</p>}
+      {quizData && (
+        <main>
+          <Stats
+            score={score}
+            questionNum={questionNum}
+            isGameOver={isGameOver}
+            totalQuestions={totalQuestions}
+          />
+          <Question quizQuestion={quizQuestion} />
+          <Answers />
+        </main>
+      )}
     </div>
   );
 }
