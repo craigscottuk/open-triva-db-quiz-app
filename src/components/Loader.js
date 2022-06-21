@@ -1,3 +1,8 @@
+/**
+ * Loader component renders a spinner from react-spinners
+ *
+ */
+
 import React from 'react';
 import GridLoader from 'react-spinners/GridLoader';
 
