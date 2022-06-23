@@ -1,19 +1,21 @@
-/**
- * Stats component renders the score, the current question number and the total number of questions
- *
- */
-
 import React from 'react';
 
-const Stats = (props) => {
+/**
+ * Stats component renders the score, the current question number and the total number of questions in the game.
+ * @param {object} props
+ * @param {number} props.score
+ * @param {number} props.questionNum
+ * @param {number} props.totalQuestions
+ */
+
+const Stats = ({ score, questionNum, totalQuestions }) => {
   return (
-    <div className='stats-container'>
-      <p>Score: {props.score}</p>
+    <>
+      <p>Score: {score}</p>
       <p>
-        Question: {props.questionNum}/{props.totalQuestions}{' '}
+        Question: {questionNum}/{totalQuestions}
       </p>
-      <p>{props.isGameOver ? 'Game is over' : 'Game is not over'}</p>
-    </div>
+    </>
   );
 };
 

@@ -1,16 +1,17 @@
-/**
- * Loader component renders a spinner from react-spinners
- *
- */
-
 import React from 'react';
 import GridLoader from 'react-spinners/GridLoader';
 
-const Loader = (props) => {
+/**
+ * Loader component renders a spinner element from react-spinners
+ * @param {object} props
+ * @param {boolean} props.isLoading
+ */
+
+const Loader = ({ isLoading }) => {
   return (
     <>
       <GridLoader
-        loading={props.isLoading}
+        loading={isLoading}
         css={{ display: 'block' }}
         size={10}
         color={'gray'}

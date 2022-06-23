@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
-import Answers from './components/Answers';
+import EndScreen from './components/EndScreen';
 import Error from './components/Error';
 import Loader from './components/Loader';
-import Question from './components/Question';
+import QuizItem from './components/QuizItem';
 import Stats from './components/Stats';
 
 export default function App() {
@@ -63,9 +63,28 @@ export default function App() {
   // console.log(quizData);
 
   const { score, quizDataIndex, isGameOver } = gameState;
-  const quizQuestion = quizData[quizDataIndex];
+
+  const quizQuestion = quizData && quizData[quizDataIndex];
+  const { question, correct_answer, incorrect_answers } = quizQuestion;
+
   const questionNum = quizDataIndex + 1;
   const totalQuestions = quizData.length;
+
+  // RestartGame function resets the gameState values thus restarting/resetting the game
+  const restartGame = () => {
+    setGameState({
+      score: 0,
+      quizDataIndex: 0,
+      isGameOver: false,
+    });
+  };
+
+  // LoadNextPage function uses spread operator to copy the gameState and adds 1 to quizDataIndex thus moving to the next page
+  const loadNextPage = () => {
+    setGameState((prevGameState) => {
+      return { ...prevGameState, quizDataIndex: quizDataIndex + 1 };
+    });
+  };
 
   return (
     <div className='app'>
@@ -73,14 +92,28 @@ export default function App() {
       {isLoading && <Loader isLoading={isLoading} />}
       {quizData && (
         <main>
-          <Stats
-            score={score}
-            questionNum={questionNum}
-            isGameOver={isGameOver}
-            totalQuestions={totalQuestions}
-          />
-          <Question quizQuestion={quizQuestion} />
-          <Answers />
+          {!isGameOver ? (
+            <>
+              <Stats
+                score={score}
+                questionNum={questionNum}
+                isGameOver={isGameOver}
+                totalQuestions={totalQuestions}
+              />
+              <QuizItem
+                question={question}
+                correct_answer={correct_answer}
+                incorrect_answers={incorrect_answers}
+                onNextBtnClick={loadNextPage}
+              />
+            </>
+          ) : (
+            <EndScreen
+              score={score}
+              bestScore={0}
+              onRetryBtnClick={restartGame}
+            />
+          )}
         </main>
       )}
     </div>
