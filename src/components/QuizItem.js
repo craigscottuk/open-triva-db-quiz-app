@@ -15,28 +15,23 @@ const QuizItem = ({
   incorrect_answers,
   onNextBtnClick,
 }) => {
+  // Creates an array of allAnswers using correct_answer and expanding the incorrect_answers array.
+  const shuffledAnswers = [correct_answer, ...incorrect_answers].sort(
+    () => Math.random() - 0.5
+    //The array elements are shuffled using sort() and Math.
+  );
+
   return (
     <>
       <p>{question}</p>
       <ul className='quizItem--answer-items-ul'>
-        <li>
-          <button className='quizItem--answer-btn'>{correct_answer}</button>
-        </li>
-        <li>
-          <button className='quizItem--answer-btn'>
-            {incorrect_answers[0]}
-          </button>
-        </li>
-        <li>
-          <button className='quizItem--answer-btn'>
-            {incorrect_answers[1]}
-          </button>
-        </li>
-        <li>
-          <button className='quizItem--answer-btn'>
-            {incorrect_answers[2]}
-          </button>
-        </li>
+        {shuffledAnswers.map((answer, index) => {
+          return (
+            <li key={index} className='quizItem--answer-btn'>
+              {answer}
+            </li>
+          );
+        })}
       </ul>
 
       <button className='quizItem--next-btn' onClick={onNextBtnClick}>
