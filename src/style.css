@@ -66,11 +66,10 @@ main {
 }
 
 
-.quizItem--answer-items-ul {
+.quizItem--answer-items-div {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    list-style: none;
     padding:0;
     margin:0;
     gap:1rem;
@@ -88,7 +87,7 @@ main {
     font-size: 1.4rem;
     border-radius: 0.4em;
     outline:none;
-    border: 3px dotted red;
+    border: 3px dotted red; 
     transition: background 0.15s,transform 0.15s,border-color 0.15s;
     /* border: 3px solid transparent; */
 
@@ -98,6 +97,8 @@ main {
 background-color: blue;
 transform: rotate(1deg) scale(1.01);
 }
+
+
 
 .quizItem--next-btn {
     margin: 2rem auto;
@@ -110,4 +111,25 @@ transform: rotate(1deg) scale(1.01);
     font-size: 1.4rem;
     border-radius: 0.4em;
     outline:none;
+}
+
+
+.disabled, .disabled:hover {
+  background-color: grey;
+  transform:  scale(0.9);
+}
+
+
+.incorrect, .incorrect:hover {
+  background-color: red;
+  transform: scale(0.9);
+}
+
+.correct, .correct:hover {
+  background-color: green;
+  transform: scale(1.01);
+}
+
+.reveal-answer {
+    background-color: greenyellow;
 }

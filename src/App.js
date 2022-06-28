@@ -1,29 +1,22 @@
-import { React, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
-import EndScreen from './components/EndScreen';
-import Error from './components/Error';
+import { React, useState } from 'react';
+// import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
+import useFetchQuizData from './components/useFetchQuizData';
 import Loader from './components/Loader';
-import QuizItem from './components/QuizItem';
+import Error from './components/Error';
 import Stats from './components/Stats';
-import useFetchData from './components/useFetchData';
+import QuizItem from './components/QuizItem';
+import EndScreen from './components/EndScreen';
+import { FadeWrapper, FadeTransition } from './components/fadeTransition';
 
-export default function App() {
-  const { quizData, isLoading, isError } = useFetchData();
+const App = () => {
+  // useFetchQuizData is a custom hook that fetches the quiz data
+  const { quizData, isLoading, isError } = useFetchQuizData(10, 'easy');
 
-  function Game() {}
   const [gameState, setGameState] = useState({
     score: 0,
     quizDataIndex: 0,
     isGameOver: false,
   });
-
-  const { score, quizDataIndex, isGameOver } = gameState;
-
-  const quizQuestion = quizData && quizData[quizDataIndex];
-  const { question, correct_answer, incorrect_answers } = quizQuestion;
-
-  const questionNum = quizDataIndex + 1;
-  const totalQuestions = quizData.length;
 
   // RestartGame function resets the gameState values thus restarting/resetting the game
   const restartGame = () => {
@@ -36,10 +29,30 @@ export default function App() {
 
   // LoadNextPage function uses spread operator to copy the gameState and adds 1 to quizDataIndex thus moving to the next page
   const loadNextPage = () => {
-    setGameState((prevGameState) => {
-      return { ...prevGameState, quizDataIndex: quizDataIndex + 1 };
-    });
+    if (quizDataIndex >= quizData.length - 1) {
+      setGameState({
+        ...gameState,
+        isGameOver: true,
+      });
+    } else {
+      setGameState({ ...gameState, quizDataIndex: quizDataIndex + 1 });
+    }
   };
+
+  const onAnswerSelected = (wasPlayerCorrect) => {
+    if (wasPlayerCorrect) {
+      setGameState((prevGameState) => {
+        return {
+          ...prevGameState,
+          score: score + 1,
+        };
+      });
+    }
+  };
+
+  const { score, quizDataIndex, isGameOver } = gameState;
+  const { question, correct_answer, incorrect_answers } =
+    quizData && quizData[quizDataIndex];
 
   return (
     <div className='app'>
@@ -51,26 +64,42 @@ export default function App() {
             <>
               <Stats
                 score={score}
-                questionNum={questionNum}
+                questionNum={quizDataIndex + 1}
                 isGameOver={isGameOver}
-                totalQuestions={totalQuestions}
+                totalQuestions={quizData.length}
               />
-              <QuizItem
-                question={question}
-                correct_answer={correct_answer}
-                incorrect_answers={incorrect_answers}
-                onNextBtnClick={loadNextPage}
-              />
+              <FadeWrapper>
+                <FadeTransition>
+                  <QuizItem
+                    key={quizDataIndex}
+                    question={question}
+                    correct_answer={correct_answer}
+                    incorrect_answers={incorrect_answers}
+                    onNextBtnClick={loadNextPage}
+                    onAnswerSelected={onAnswerSelected}
+                  />
+                </FadeTransition>
+              </FadeWrapper>
             </>
           ) : (
-            <EndScreen
-              score={score}
-              bestScore={0}
-              onRetryBtnClick={restartGame}
-            />
+            <>
+              {' '}
+              <FadeWrapper>
+                <FadeTransition>
+                  <EndScreen
+                    key={'EndScreen'}
+                    score={score}
+                    bestScore={0}
+                    onRetryBtnClick={restartGame}
+                  />
+                </FadeTransition>
+              </FadeWrapper>
+            </>
           )}
         </main>
       )}
     </div>
   );
-}
+};
+
+export default App;
