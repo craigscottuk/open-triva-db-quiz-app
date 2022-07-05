@@ -27,14 +27,13 @@ body {
 
 .app {
     width:100%;
-    max-width: 550px;
-    height: 550px;
+    max-width: 320px;
+    height: 568px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color:lightgray;
-    padding:30px;
 }
 
 .error-msg {
@@ -65,7 +64,16 @@ main {
     height:100px;
 }
 
+.quizItem--answer-items-div {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding:0;
+    margin:0;
+    gap:0.3rem;
+}
 
+
+/* @media (orientation: landscape) {
 .quizItem--answer-items-div {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -74,6 +82,7 @@ main {
     margin:0;
     gap:1rem;
 }
+} */
 
 
 .quizItem--answer-btn {
