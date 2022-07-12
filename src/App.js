@@ -3,7 +3,7 @@ import { React, useState } from 'react';
 import useFetchQuizData from './components/useFetchQuizData';
 import Loader from './components/Loader';
 import Error from './components/Error';
-import Stats from './components/Stats';
+import GameStats from './components/GameStats';
 import QuizItem from './components/QuizItem';
 import EndScreen from './components/EndScreen';
 import { FadeWrapper, FadeTransition } from './components/fadeTransition';
@@ -56,18 +56,20 @@ const App = () => {
 
   return (
     <div className='app'>
-      {isError && <Error error={isError} />}
-      {isLoading && <Loader isLoading={isLoading} />}
-      {quizData && (
-        <main>
-          {!isGameOver ? (
-            <>
-              <Stats
-                score={score}
-                questionNum={quizDataIndex + 1}
-                isGameOver={isGameOver}
-                totalQuestions={quizData.length}
-              />
+      <header>
+        <GameStats
+          score={score}
+          questionNum={quizDataIndex + 1}
+          isGameOver={isGameOver}
+          totalQuestions={quizData.length}
+        />
+      </header>
+      <main>
+        {isError && <Error error={isError} />}
+        {isLoading && <Loader isLoading={isLoading} />}
+        {quizData && (
+          <>
+            {!isGameOver ? (
               <FadeWrapper>
                 <FadeTransition>
                   <QuizItem
@@ -80,10 +82,7 @@ const App = () => {
                   />
                 </FadeTransition>
               </FadeWrapper>
-            </>
-          ) : (
-            <>
-              {' '}
+            ) : (
               <FadeWrapper>
                 <FadeTransition>
                   <EndScreen
@@ -94,10 +93,11 @@ const App = () => {
                   />
                 </FadeTransition>
               </FadeWrapper>
-            </>
-          )}
-        </main>
-      )}
+            )}
+          </>
+        )}
+      </main>
+      <footer></footer>
     </div>
   );
 };

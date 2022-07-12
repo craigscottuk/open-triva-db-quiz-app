@@ -36,58 +36,42 @@ const QuizItem = ({
   };
 
   return (
-    <>
-      <p>{question}</p>
-      {selectedAnswer === correct_answer ? (
-        <div>
-          <button className='quizItem--answer-btn correct'>
-            {selectedAnswer}
-          </button>
-        </div>
-      ) : (
-        <div className='quizItem--answer-items-div'>
-          {shuffledAnswers &&
-            shuffledAnswers.map((answer, index) => {
-              return (
-                <button
-                  key={index}
-                  onClick={selectAnswer}
-                  className={
-                    !hasPickedAnswer
-                      ? 'quizItem--answer-btn'
-                      : answer === selectedAnswer && answer === correct_answer
-                      ? 'quizItem--answer-btn correct'
-                      : answer === selectedAnswer && answer !== correct_answer
-                      ? 'quizItem--answer-btn incorrect'
-                      : answer === correct_answer
-                      ? 'quizItem--answer-btn reveal-answer'
-                      : 'quizItem--answer-btn disabled'
-                  }
-                  disabled={hasPickedAnswer}
-                >
-                  {answer}
-                </button>
-              );
-            })}
-        </div>
-      )}
-      {
-        <button
-          className={
-            !hasPickedAnswer
-              ? 'quizItem--next-btn disabled'
-              : 'quizItem--next-btn'
-          }
-          onClick={onNextBtnClick}
-          disabled={!hasPickedAnswer}
-        >
-          Next
-        </button>
-      }
-      <button className='quizItem--quit-btn' onClick={onNextBtnClick}>
-        Quit
+    <div className='quizItem-div'>
+      <p className='sans-question'>{question}</p>
+
+      <div className='answBtns-div'>
+        {shuffledAnswers &&
+          shuffledAnswers.map((answer, index) => {
+            return (
+              <button
+                key={index}
+                onClick={selectAnswer}
+                className={
+                  !hasPickedAnswer
+                    ? 'answBtn'
+                    : answer === selectedAnswer && answer === correct_answer
+                    ? 'answBtn answBtn--correct'
+                    : answer === selectedAnswer && answer !== correct_answer
+                    ? 'answBtn answBtn--incorrect'
+                    : answer === correct_answer
+                    ? 'answBtn answBtn--reveal-answ'
+                    : 'answBtn answBtn--disabled'
+                }
+                disabled={hasPickedAnswer}
+              >
+                {answer}
+              </button>
+            );
+          })}
+      </div>
+      <button
+        className={!hasPickedAnswer ? 'nxtBtn nxtBtn--disabled' : 'nxtBtn'}
+        onClick={onNextBtnClick}
+        disabled={!hasPickedAnswer}
+      >
+        Next
       </button>
-    </>
+    </div>
   );
 };
 
