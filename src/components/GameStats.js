@@ -10,7 +10,7 @@ import React from 'react';
 
 const GameStats = ({ score, questionNum, totalQuestions }) => {
   return (
-    <>
+    <div className='game-stats'>
       <ul>
         <li className='sans-cond'>Score:</li>
         <li className='sans-fat'>{score}</li>
@@ -22,7 +22,7 @@ const GameStats = ({ score, questionNum, totalQuestions }) => {
           <span className='sans-small-fat'>/{totalQuestions}</span>
         </li>
       </ul>
-    </>
+    </div>
   );
 };
 

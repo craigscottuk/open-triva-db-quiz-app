@@ -97,7 +97,6 @@ const App = () => {
           </>
         )}
       </main>
-      <footer></footer>
     </div>
   );
 };
