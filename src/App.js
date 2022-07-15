@@ -1,9 +1,10 @@
 import { React, useState } from 'react';
+import './App.css';
 // import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
 import useFetchQuizData from './components/useFetchQuizData';
 import Loader from './components/Loader';
 import Error from './components/Error';
-import GameStats from './components/GameStats';
+import Stats from './components/Stats';
 import QuizItem from './components/QuizItem';
 import EndScreen from './components/EndScreen';
 import { FadeWrapper, FadeTransition } from './components/fadeTransition';
@@ -57,7 +58,7 @@ const App = () => {
   return (
     <div className='app'>
       <header>
-        <GameStats
+        <Stats
           score={score}
           questionNum={quizDataIndex + 1}
           isGameOver={isGameOver}

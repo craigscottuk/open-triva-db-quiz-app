@@ -8,22 +8,22 @@ import React from 'react';
  * @param {number} props.totalQuestions
  */
 
-const GameStats = ({ score, questionNum, totalQuestions }) => {
+const Stats = ({ score, questionNum, totalQuestions }) => {
   return (
     <div className='game-stats'>
       <ul>
-        <li className='sans-cond'>Score:</li>
-        <li className='sans-fat'>{score}</li>
+        <li className='sans-stat-title'>Score:</li>
+        <li className='sans-stat-value'>{score}</li>
       </ul>
       <ul>
-        <li className='sans-cond'>Question:</li>
-        <li className='sans-fat'>
+        <li className='sans-stat-title'>Question:</li>
+        <li className='sans-stat-value'>
           {questionNum}
-          <span className='sans-small-fat'>/{totalQuestions}</span>
+          <span className='sans-stat-value-small'>/{totalQuestions}</span>
         </li>
       </ul>
     </div>
   );
 };
 
-export default GameStats;
+export default Stats;

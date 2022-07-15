@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-
+import './QuizItem.css';
 /**
  * QuizItem component renders each quiz question from the data.
  * @param {object} props

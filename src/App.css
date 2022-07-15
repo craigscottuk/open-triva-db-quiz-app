@@ -4,8 +4,8 @@
   /* ------------------- */
 
   /* colors */
-  --light-gray: 0 0% 90%; /* hsl */
-  --dark-gray: 180 16% 15%; /* hsl */
+  --light-txt: 0 0% 90%; /* hsl */
+  --dark-bg: 180 16% 15%; /* hsl */
 
   /* Hue values the answBtn color mix (hsl) */
   --default-answBtn-hue: 46; /* yellow hue */
@@ -20,7 +20,7 @@
   --default-answBtn-light: 50%; /* lightness */
 
   /* The varibles declared to alter the hsl color mix of 
-    text, gradients and shadows in the answBtns classes below */
+    text, gradients and shadows in the answBtns in QuizItem.css */
   --hue: var(--default-answBtn-hue); /* set to default hue */
   --sat: var(--default-answBtn-sat); /* set to default sat */
   --light: var(--default-answBtn-light); /* set to default lightness */
@@ -55,7 +55,7 @@
 /* Custom properties for extra small screens    */
 /* -------------------------------------------- */
 
-/* For extremely small screen devices (319px and below) */
+/* For very small screen devices (374px and below) */
 @media only screen and (max-width: 374px) {
   :root {
     /* text sizes */
@@ -69,10 +69,11 @@
   }
 }
 
-/* ------------------------------------- */
-/* Custom properties (min-height: 768px) */
-/* ------------------------------------- */
+/* -------------------------------------------- */
+/* Custom properties for medium-height screens  */
+/* -------------------------------------------- */
 
+/* Medium screen devices with height of 720px and above) */
 @media only screen and (min-height: 720px) {
   :root {
     /* app properties */
@@ -130,100 +131,6 @@
   }
 }
 
-/* ------------------ */
-/* AnswBtn classes    */
-/* ------------------ */
-
-/* 1 of 2: AnswBtn default (up/unselected) state */
-
-/* prettier-ignore */
-.answBtn {
-  width: 100%;
-  padding: var(--answBtn-padding);
-  border-radius: var(--answBtn-brdr-radius);
-  border: 0;
-  cursor: pointer;
-  font-size: var(--answBtn-txt);
-  line-height: 1.1;
-  color: hsl(var(--hue) var(--sat) 10% / 0.6);
-  
-  /* Gradient background fill */
-  background: linear-gradient(204deg,
-    hsl(var(--hue)var(--sat) var(--light)) 0%,
-    hsl(calc(var(--hue) + 6) var(--sat) calc(var(--light) - 10%)) 75%);
- 
-    /* Drop shadow and button's embossed appearance */
-  box-shadow: 0em 0.5em 0.5em
-      hsl(var(--hue) var(--sat) 5% / 0.3),
-    inset -0.2em -0.5em 1.2em
-      hsl(var(--hue) var(--sat) calc(var(--light) - 10%)),
-    inset -0.2em 0.8em 1.2em 
-      hsl(calc(var(--hue) + 6) var(--sat) var(--light));
-}
-
-/* 2 of 2: Answer button down (selected/pressed) state */
-
-/* prettier-ignore */
-.answbtn--down {
-  /* Text color is modified slightly */
-  color: hsl(calc(var(--hue) - 10) var(--sat) 16% / 0.6);
-  
-  /* Gradient background fill */
-  background: linear-gradient(180deg,
-    hsl(calc(var(--hue) - 4) var(--sat) 40%) 0%,
-    hsl(calc(var(--hue) - 10) var(--sat) 50%) 100%);
-  /* Drop shadow and button's debossed appearance */
-  box-shadow: 0em 0.1em 0.35em 
-      hsl(var(--hue) var(--sat) 8% / 0.7),
-    inset 0.2em 0.8em 0.5em
-      hsl(calc(var(--hue) - 4) var(--sat), calc(var(--light) - 10%) / 0.8),
-    inset -0.2em -0.2em 0.5em
-      hsl(calc(var(--hue) - 10) var(--sat) var(--light) / -0.9);
-      
-}
-
-/* ------------------ */
-/* AnswBtn: hover     */
-/* ------------------ */
-
-/* Hue is modfied to show the correct answer colour */
-.answBtn:hover,
-answBtn:focus {
-  --sat: calc(
-    var(--default-answBtn-sat) + 10%
-  ); /* adding more saturation to the color mix */
-  --light: calc(
-    var(--default-answBtn-light) + 2%
-  ); /* adding more lightness to the colormix */
-}
-
-/* ----------------------- */
-/* AnswBtn: modifications  */
-/* ----------------------- */
-
-/* Saturation is modified to show buttons are disabled  */
-.answBtn--disabled,
-.answBtn--disabled:hover {
-  --sat: var(--disabled-answBtn-sat);
-}
-
-/* Hue is modfied to show the incorrect answer colour */
-.answBtn--incorrect {
-  --hue: var(--incorrect-answBtn-hue);
-}
-
-/* Hue is modfied to show the correct answer colour */
-.answBtn--correct {
-  --hue: var(--correct-answBtn-hue);
-  transform: scale(1.03);
-  transition: transform 150ms ease-out;
-}
-.answBtn--reveal-answ {
-  --hue: var(--correct-answBtn-hue);
-  transform: scale(1.03);
-  transition: transform 150ms ease-out;
-}
-
 /* ------------------------- */
 /* Color utility classes     */
 /* ------------------------- */
@@ -248,30 +155,30 @@ answBtn:focus {
 .sans-question {
   font-family: var(--ff-sans);
   font-size: var(--question-txt);
-  color: hsl(var(--light-gray) / 0.7);
+  color: hsl(var(--light-txt) / 0.7);
   line-height: 1.3;
   text-align: center;
   margin: calc(var(--answBtn-gap) + 1vh) 0.5rem;
 }
 
 /* Type used in the stat titles (header))  */
-.sans-cond {
-  color: hsl(var(--light-gray) / 0.7);
+.sans-stat-title {
+  color: hsl(var(--light-txt) / 0.7);
   font-family: var(--ff-sans-cond);
   font-size: var(--stat-title-txt);
   font-weight: 400;
 }
 
 /* Type used for stat values (header)) */
-.sans-fat {
-  color: hsl(var(--light-gray) / 0.8);
+.sans-stat-value {
+  color: hsl(var(--light-txt) / 0.8);
   font-family: var(--ff-sans);
   font-size: var(--stat-value-txt-lrg);
   font-weight: 700;
 }
 
 /* Type used to style total num of Questions s (header))  */
-.sans-small-fat {
+.sans-stat-value-small {
   font-family: var(--ff-sans);
   font-size: var(--stat-value-txt-sma);
   font-weight: 700;
@@ -325,21 +232,18 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: end;
-  background: hsl(var(--dark-gray) / 1);
+  background: hsl(var(--dark-bg) / 1);
   border-radius: var(--app-brdr-radius);
   padding: var(--app-padding);
   margin: var(--app-margin);
 }
+
 @media only screen and (min-height: 800px) {
   .app {
     height: 80vh;
   }
 }
-@media only screen and (min-height: 800px) {
-  .app {
-    height: 75vh;
-  }
-}
+
 .game-stats {
   display: flex;
   justify-content: space-around;
@@ -356,49 +260,6 @@ main {
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-}
-
-.quizItem-div {
-  display: flex;
-  flex-direction: column;
-}
-
-.answBtns-div {
-  display: flex;
-  flex-direction: column;
-  gap: var(--answBtn-gap);
-}
-
-/* Changes layout grid of ansBtns to 2 by 2 for screen devices (600px and above) */
-@media only screen and (min-width: 650px) {
-  .answBtns-div {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-}
-
-.nxtBtn {
-  width: var(--nxtBtn-width);
-  margin-top: var(--nxtBtn-marg-top);
-  padding: var(--nxtBtn-padding) 0;
-  font-size: var(--nxtBtn-txt);
-  background: #000000;
-  color: hsl(0 0% 50% / 1);
-  border: none;
-  align-self: center;
-  cursor: pointer;
-  transform: scale(1);
-  transition: transform 200ms ease-out;
-}
-
-.nxtBtn--disabled {
-  visibility: show;
-  background: hsl(0 0% 20% / 1);
-  color: hsl(0 0% 40% / 1);
-  cursor: default;
-  transform: scale(0.98);
-  transition: transform 2000ms ease-out;
 }
 
 /* 
