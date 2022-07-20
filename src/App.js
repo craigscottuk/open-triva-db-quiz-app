@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import './App.css';
 // import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
-import useFetchQuizData from './components/useFetchQuizData';
+import useFetchData from './components/useFetchData';
 import Loader from './components/Loader';
 import Error from './components/Error';
 import Stats from './components/Stats';
@@ -10,8 +10,8 @@ import EndScreen from './components/EndScreen';
 import { FadeWrapper, FadeTransition } from './components/fadeTransition';
 
 const App = () => {
-  // useFetchQuizData is a custom hook that fetches the quiz data
-  const { quizData, isLoading, isError } = useFetchQuizData(10, 'easy');
+  // useFetchData is a custom hook that fetches the quiz data
+  const { quizData, isLoading, isError } = useFetchData(2, 'easy');
 
   const [gameState, setGameState] = useState({
     score: 0,
@@ -58,12 +58,14 @@ const App = () => {
   return (
     <div className='app'>
       <header>
-        <Stats
-          score={score}
-          questionNum={quizDataIndex + 1}
-          isGameOver={isGameOver}
-          totalQuestions={quizData.length}
-        />
+        {!isGameOver && (
+          <Stats
+            score={score}
+            questionNum={quizDataIndex + 1}
+            isGameOver={isGameOver}
+            totalQuestions={quizData.length}
+          />
+        )}
       </header>
       <main>
         {isError && <Error error={isError} />}

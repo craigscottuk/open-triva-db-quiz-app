@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import he from 'he';
 
-function useFetchQuizData(amount = 10, difficulty = '') {
+function useFetchData(amount = 10, difficulty = '') {
   const [quizData, setQuizData] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -49,4 +49,4 @@ function decodeData(data) {
   return decodedData;
 }
 
-export default useFetchQuizData;
+export default useFetchData;
