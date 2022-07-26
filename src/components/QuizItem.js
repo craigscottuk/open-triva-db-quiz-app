@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import './QuizItem.css';
+
 /**
  * QuizItem component renders each quiz question from the data.
  * @param {object} props
@@ -16,6 +17,7 @@ const QuizItem = ({
   incorrect_answers,
   onNextBtnClick,
   onAnswerSelected,
+  afterAnswerSelected,
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const hasPickedAnswer = selectedAnswer !== null;
@@ -29,10 +31,15 @@ const QuizItem = ({
   );
 
   const selectAnswer = (event) => {
-    const playerAnswer = event.target.innerHTML;
-    setSelectedAnswer(playerAnswer);
-    const wasPlayerCorrect = playerAnswer === correct_answer;
-    onAnswerSelected(wasPlayerCorrect);
+    if (hasPickedAnswer === false) {
+      const playerAnswer = event.target.innerHTML;
+      setSelectedAnswer(playerAnswer);
+      const wasPlayerCorrect = playerAnswer === correct_answer;
+      onAnswerSelected(wasPlayerCorrect);
+    } else {
+      const areButtonsDisabled = true;
+      afterAnswerSelected(areButtonsDisabled);
+    }
   };
 
   return (
@@ -57,7 +64,6 @@ const QuizItem = ({
                     ? 'answBtn answBtn--reveal-answ'
                     : 'answBtn answBtn--disabled'
                 }
-                disabled={hasPickedAnswer}
               >
                 {answer}
               </button>

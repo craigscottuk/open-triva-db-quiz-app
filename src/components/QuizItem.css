@@ -121,13 +121,14 @@ main {
 
 /* Hue is modfied to show the correct answer colour */
 .answBtn:hover,
-answBtn:focus {
+.answBtn:focus {
   --sat: calc(
     var(--default-answBtn-sat) + 10%
   ); /* adding more saturation to the color mix */
   --light: calc(
     var(--default-answBtn-light) + 2%
   ); /* adding more lightness to the colormix */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* -------------------------------- */
@@ -136,7 +137,9 @@ answBtn:focus {
 
 /* Saturation is modified to show buttons are disabled  */
 .answBtn--disabled,
-.answBtn--disabled:hover {
+.answBtn--disabled:hover,
+.answBtn--disabled:focus {
+  box-shadow: none;
   --sat: var(--disabled-answBtn-sat);
 }
 
@@ -148,13 +151,13 @@ answBtn:focus {
 /* Hue is modfied to show the correct answer colour */
 .answBtn--correct {
   --hue: var(--correct-answBtn-hue);
-  transform: scale(1.03);
+  transform: scale(1.02);
   transition: transform 150ms ease-out;
 }
 .answBtn--reveal-answ {
   --hue: var(--correct-answBtn-hue);
-  transform: scale(1.03);
-  transition: transform 150ms ease-out;
+  transform: scale(1.02);
+  transition: transform 280ms ease-out;
 }
 
 /* --------------------- */
