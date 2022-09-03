@@ -157,7 +157,7 @@ main {
 .answBtn--reveal-answ {
   --hue: var(--correct-answBtn-hue);
   transform: scale(1.02);
-  transition: transform 280ms ease-out;
+  transition: transform 180ms ease-out;
 }
 
 /* --------------------- */
