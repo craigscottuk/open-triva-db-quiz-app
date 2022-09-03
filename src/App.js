@@ -18,19 +18,30 @@ import Incorrect_MP3 from './sounds/incorrect_15.mp3';
 import EndGame_MP3 from './sounds/quiz_end_screen_01.mp3';
 import Click_MP3 from './sounds/click_11.mp3';
 
+import Settings from './pages/Settings';
+import Quiz from './pages/Quiz';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from 'react-router-dom';
+
 const App = () => {
   const playSound = (src) => {
     const sound = new Howl({
       src,
       html5: true,
+      preload: true,
     });
     sound.play();
   };
-  // Howler.autoUnlock = false;
+
   Howler.volume(0.5);
 
   // useFetchData is a custom hook that fetches the quiz data
-  const { quizData, isLoading, isError } = useFetchData(10, 'easy');
+  const { quizData, isLoading, isError } = useFetchData(2, 'easy');
 
   const [gameState, setGameState] = useState({
     score: 0,
@@ -123,6 +134,7 @@ const App = () => {
                     bestScore={0}
                     onRetryBtnClick={restartGame}
                   />
+                  {playSound([EndGame_MP3, EndGame_WAV])}
                 </FadeTransition>
               </FadeWrapper>
             )}
