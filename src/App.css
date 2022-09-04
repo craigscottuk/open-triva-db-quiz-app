@@ -249,3 +249,22 @@ body {
 .error-msg {
 margin-top: 2rem;
 } */
+
+.settings-select {
+  display: flex;
+  flex-direction: column;
+  /* padding: 20px; */
+  /* width: 60%; */
+  flex: 0.8;
+  justify-content: space-evenly;
+}
+
+.error-msg {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4;
+  background-color: orangered;
+  text-align: center;
+  color: white;
+}

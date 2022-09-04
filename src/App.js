@@ -19,16 +19,18 @@ import EndGame_MP3 from './sounds/quiz_end_screen_01.mp3';
 import Click_MP3 from './sounds/click_11.mp3';
 
 import Settings from './pages/Settings';
-import Quiz from './pages/Quiz';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
+  let test2 = 12;
+  const quizSettings = (numOfQues) => {
+    test2 = numOfQues;
+    // const ques = numOfQues;
+    // console.log(ques);
+  };
+
+  // const test1 = numOfQues;
+
   const playSound = (src) => {
     const sound = new Howl({
       src,
@@ -41,7 +43,7 @@ const App = () => {
   Howler.volume(0.5);
 
   // useFetchData is a custom hook that fetches the quiz data
-  const { quizData, isLoading, isError } = useFetchData(2, 'easy');
+  const { quizData, isLoading, isError } = useFetchData(test2, 21, 'easy');
 
   const [gameState, setGameState] = useState({
     score: 0,
@@ -58,7 +60,8 @@ const App = () => {
     });
   };
 
-  // LoadNextPage function uses spread operator to copy the gameState and adds 1 to quizDataIndex thus moving to the next page
+  // LoadNextPage function uses spread operator to copy the gameState
+  // and adds 1 to quizDataIndex thus moving to the next question
   const loadNextPage = () => {
     if (quizDataIndex >= quizData.length - 1) {
       setGameState({
@@ -95,53 +98,63 @@ const App = () => {
     quizData && quizData[quizDataIndex];
 
   return (
-    <div className='app'>
-      <header>
-        {!isGameOver && (
-          <Stats
-            score={score}
-            questionNum={quizDataIndex + 1}
-            isGameOver={isGameOver}
-            totalQuestions={quizData.length}
-          />
-        )}
-      </header>
-      <main>
-        {isError && <Error error={isError} />}
-        {isLoading && <Loader isLoading={isLoading} />}
-        {quizData && (
-          <>
-            {!isGameOver ? (
-              <FadeWrapper>
-                <FadeTransition>
-                  <QuizItem
-                    key={quizDataIndex}
-                    question={question}
-                    correct_answer={correct_answer}
-                    incorrect_answers={incorrect_answers}
-                    onNextBtnClick={loadNextPage}
-                    onAnswerSelected={onAnswerSelected}
-                    afterAnswerSelected={afterAnswerSelected}
-                  />
-                </FadeTransition>
-              </FadeWrapper>
-            ) : (
-              <FadeWrapper>
-                <FadeTransition>
-                  <EndScreen
-                    key={'EndScreen'}
+    <Router>
+      <Routes>
+        <Route path='/' element={<Settings quizSettings={quizSettings} />} />
+        <Route
+          path='/quiz'
+          element={
+            <div className='app'>
+              <header>
+                {!isGameOver && (
+                  <Stats
                     score={score}
-                    bestScore={0}
-                    onRetryBtnClick={restartGame}
+                    questionNum={quizDataIndex + 1}
+                    isGameOver={isGameOver}
+                    totalQuestions={quizData.length}
                   />
-                  {playSound([EndGame_MP3, EndGame_WAV])}
-                </FadeTransition>
-              </FadeWrapper>
-            )}
-          </>
-        )}
-      </main>
-    </div>
+                )}
+              </header>
+              <main>
+                {isError && <Error error={isError} />}
+                {isLoading && <Loader isLoading={isLoading} />}
+                {quizData && (
+                  <>
+                    {!isGameOver ? (
+                      <FadeWrapper>
+                        <FadeTransition>
+                          <QuizItem
+                            key={quizDataIndex}
+                            question={question}
+                            correct_answer={correct_answer}
+                            incorrect_answers={incorrect_answers}
+                            onNextBtnClick={loadNextPage}
+                            onAnswerSelected={onAnswerSelected}
+                            afterAnswerSelected={afterAnswerSelected}
+                          />
+                        </FadeTransition>
+                      </FadeWrapper>
+                    ) : (
+                      <FadeWrapper>
+                        <FadeTransition>
+                          <EndScreen
+                            key={'EndScreen'}
+                            score={score}
+                            bestScore={0}
+                            onRetryBtnClick={restartGame}
+                          />
+                          {playSound([EndGame_MP3, EndGame_WAV])}
+                        </FadeTransition>
+                      </FadeWrapper>
+                    )}
+                  </>
+                )}
+              </main>
+            </div>
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 
