@@ -1,35 +1,39 @@
 import { useEffect, useState } from 'react';
 import he from 'he';
 
-function useFetchData(amount = 10, category = 10, difficulty = '') {
+function useFetchData(amount, category, difficulty, isGameSet) {
   const [quizData, setQuizData] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   //  Fetches quiz data from opentdb.com/api
+
   useEffect(() => {
     const params = new URLSearchParams({ amount, category, type: 'multiple' });
     if (difficulty !== '') params.append('difficulty', difficulty);
-    const url = `https://opentdb.com/api.php?${params.toString()}`;
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          throw Error();
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setIsLoading(false);
-        setIsError(false);
+    if (isGameSet === true) {
+      setIsLoading(true);
+      const url = `https://opentdb.com/api.php?${params.toString()}`;
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) {
+            throw Error();
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setIsLoading(false);
+          setIsError(false);
 
-        setQuizData(decodeData(data));
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        setIsError(true);
-        console.log(err.message);
-      });
-  }, []);
+          setQuizData(decodeData(data));
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          setIsError(true);
+          console.log(err.message);
+        });
+    }
+  }, [amount, category, difficulty, isGameSet]);
 
   return { quizData, isLoading, isError };
 }

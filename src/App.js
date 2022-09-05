@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
 import './App.css';
-// import { BrowserRouter as Router, Routers, Route } from 'react-router-dom';
 import useFetchData from './components/useFetchData';
 import Loader from './components/Loader';
 import Error from './components/Error';
@@ -20,30 +19,40 @@ import Click_MP3 from './sounds/click_11.mp3';
 
 import Settings from './pages/Settings';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NewGame from './components/NewGame';
 
 const App = () => {
-  let test2 = 12;
-  const quizSettings = (numOfQues) => {
-    test2 = numOfQues;
-    // const ques = numOfQues;
-    // console.log(ques);
-  };
+  // GAME SETTINGS
 
-  // const test1 = numOfQues;
-
-  const playSound = (src) => {
-    const sound = new Howl({
-      src,
-      html5: true,
-      preload: true,
+  const [gameSettings, setGameSettings] = useState({
+    numOfQues: 2,
+    category: 22,
+    difficulty: '',
+    isGameSet: false,
+  });
+  const quizSettings = (numOfQues, category, difficulty) => {
+    setGameSettings({
+      ...gameSettings,
+      numOfQues: numOfQues,
+      category: category,
+      difficulty: difficulty,
+      isGameSet: true,
     });
-    sound.play();
   };
 
-  Howler.volume(0.5);
+  console.log(gameSettings);
+
+  //FETCH DATA
 
   // useFetchData is a custom hook that fetches the quiz data
-  const { quizData, isLoading, isError } = useFetchData(test2, 21, 'easy');
+  const { quizData, isLoading, isError } = useFetchData(
+    gameSettings.numOfQues,
+    gameSettings.category,
+    gameSettings.difficulty,
+    gameSettings.isGameSet
+  );
+
+  // GAME STATE
 
   const [gameState, setGameState] = useState({
     score: 0,
@@ -60,6 +69,8 @@ const App = () => {
     });
   };
 
+  // LOAD NEXT PAGE
+
   // LoadNextPage function uses spread operator to copy the gameState
   // and adds 1 to quizDataIndex thus moving to the next question
   const loadNextPage = () => {
@@ -72,6 +83,19 @@ const App = () => {
       setGameState({ ...gameState, quizDataIndex: quizDataIndex + 1 });
     }
   };
+
+  // SOUNDS AND SCORE
+
+  const playSound = (src) => {
+    const sound = new Howl({
+      src,
+      html5: true,
+      preload: true,
+    });
+    sound.play();
+  };
+
+  Howler.volume(0.5);
 
   const onAnswerSelected = (wasPlayerCorrect) => {
     if (wasPlayerCorrect) {
@@ -93,6 +117,7 @@ const App = () => {
     }
   };
 
+  const { isGameSet } = gameSettings;
   const { score, quizDataIndex, isGameOver } = gameState;
   const { question, correct_answer, incorrect_answers } =
     quizData && quizData[quizDataIndex];
@@ -116,6 +141,7 @@ const App = () => {
                 )}
               </header>
               <main>
+                {!isGameSet && <NewGame />}
                 {isError && <Error error={isError} />}
                 {isLoading && <Loader isLoading={isLoading} />}
                 {quizData && (
