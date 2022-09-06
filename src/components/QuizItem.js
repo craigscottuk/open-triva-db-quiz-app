@@ -1,5 +1,8 @@
 import { React, useState } from 'react';
 import './QuizItem.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Button } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 /**
  * QuizItem component renders each quiz question from the data.
@@ -42,42 +45,63 @@ const QuizItem = ({
     }
   };
 
-  return (
-    <div className='quizItem-div'>
-      <p className='sans-question'>{question}</p>
+  const settingsThemeMUI = createTheme({
+    palette: {
+      mode: 'dark',
+      // primary: grey,
+      primary: {
+        main: '#171717',
+        dark: '#000000',
+      },
+    },
+  });
 
-      <div className='answBtns-div'>
-        {shuffledAnswers &&
-          shuffledAnswers.map((answer, index) => {
-            return (
-              <button
-                key={index}
-                onClick={selectAnswer}
-                className={
-                  !hasPickedAnswer
-                    ? 'answBtn'
-                    : answer === selectedAnswer && answer === correct_answer
-                    ? 'answBtn answBtn--correct'
-                    : answer === selectedAnswer && answer !== correct_answer
-                    ? 'answBtn answBtn--incorrect'
-                    : answer === correct_answer
-                    ? 'answBtn answBtn--reveal-answ'
-                    : 'answBtn answBtn--disabled'
-                }
-              >
-                {answer}
-              </button>
-            );
-          })}
+  return (
+    <ThemeProvider theme={settingsThemeMUI}>
+      <div className='quizItem-div'>
+        <p className='sans-question'>{question}</p>
+
+        <div className='answBtns-div'>
+          {shuffledAnswers &&
+            shuffledAnswers.map((answer, index) => {
+              return (
+                <button
+                  key={index}
+                  onClick={selectAnswer}
+                  className={
+                    !hasPickedAnswer
+                      ? 'answBtn'
+                      : answer === selectedAnswer && answer === correct_answer
+                      ? 'answBtn answBtn--correct'
+                      : answer === selectedAnswer && answer !== correct_answer
+                      ? 'answBtn answBtn--incorrect'
+                      : answer === correct_answer
+                      ? 'answBtn answBtn--reveal-answ'
+                      : 'answBtn answBtn--disabled'
+                  }
+                >
+                  {answer}
+                </button>
+              );
+            })}
+        </div>
+        <Button
+          // className={!hasPickedAnswer ? 'nxtBtn nxtBtn--disabled' : 'nxtBtn'}
+          onClick={onNextBtnClick}
+          disabled={!hasPickedAnswer}
+          style={{ marginTop: '0.8rem' }}
+          variant='contained'
+          color='primary'
+          size='large'
+          disableElevation
+          // sx={{
+          //   backgroundColor: '#181818',
+          // }}
+        >
+          Next
+        </Button>
       </div>
-      <button
-        className={!hasPickedAnswer ? 'nxtBtn nxtBtn--disabled' : 'nxtBtn'}
-        onClick={onNextBtnClick}
-        disabled={!hasPickedAnswer}
-      >
-        Next
-      </button>
-    </div>
+    </ThemeProvider>
   );
 };
 

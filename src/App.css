@@ -143,7 +143,7 @@
 
 /* Light theme */
 .light {
-  background-color: hsl(0 0% 60% / 1);
+  background-color: hsl(0 0% 850% / 1);
   color: hsl(0 0% 8% / 1);
 }
 
@@ -210,7 +210,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #999;
+  background-color: #222;
   font-family: var(--ff-sans);
 }
 
@@ -259,12 +259,16 @@ margin-top: 2rem;
   justify-content: space-evenly;
 }
 
+.settings-select select {
+  color: hsl(var(--light-txt) / 0.9);
+}
+
 .error-msg {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4;
-  background-color: orangered;
+  background-color: black;
   text-align: center;
   color: white;
 }

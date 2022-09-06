@@ -164,7 +164,7 @@ main {
 /* Next button styles    */
 /* --------------------- */
 
-.nxtBtn {
+/* .nxtBtn {
   width: var(--nxtBtn-width);
   margin-top: var(--nxtBtn-marg-top);
   padding: var(--nxtBtn-padding) 0;
@@ -185,4 +185,4 @@ main {
   cursor: default;
   transform: scale(0.98);
   transition: transform 2000ms ease-out;
-}
+} */

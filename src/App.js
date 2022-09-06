@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import './App.css';
-import useFetchData from './components/useFetchData';
+import useFetchData from './data/useFetchData';
 import Loader from './components/Loader';
 import Error from './components/Error';
 import Stats from './components/Stats';
@@ -95,7 +95,7 @@ const App = () => {
     sound.play();
   };
 
-  Howler.volume(0.5);
+  Howler.volume(0);
 
   const onAnswerSelected = (wasPlayerCorrect) => {
     if (wasPlayerCorrect) {
