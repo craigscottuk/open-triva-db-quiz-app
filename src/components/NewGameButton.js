@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Button, createTheme, ThemeProvider } from '@mui/material';
 import { amber } from '@mui/material/colors';
 
-const NewGame = (restartGame) => {
+const NewGameButton = (restartGame) => {
   const quizThemeMUI = createTheme({
     palette: {
       mode: 'dark',
       primary: amber,
     },
   });
-
   const navigate = useNavigate();
   return (
     <ThemeProvider theme={quizThemeMUI}>
@@ -39,4 +38,4 @@ const NewGame = (restartGame) => {
   );
 };
 
-export default NewGame;
+export default NewGameButton;

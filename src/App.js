@@ -20,6 +20,7 @@ import Click_MP3 from './sounds/click_11.mp3';
 import Settings from './pages/Settings';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NewGame from './components/NewGame';
+import NewGameButton from './components/NewGameButton';
 
 const App = () => {
   // GAME SETTINGS
@@ -31,6 +32,10 @@ const App = () => {
     isGameSet: false,
   });
   const quizSettings = (numOfQues, category, difficulty) => {
+    // restartGame();
+    // setGameState({
+    //   isGameOver: false,
+    // });
     setGameSettings({
       ...gameSettings,
       numOfQues: numOfQues,
@@ -141,7 +146,7 @@ const App = () => {
                 )}
               </header>
               <main>
-                {!isGameSet && <NewGame />}
+                {!isGameSet && <NewGameButton />}
                 {isError && <Error error={isError} />}
                 {isLoading && <Loader isLoading={isLoading} />}
                 {quizData && (

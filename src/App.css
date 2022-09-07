@@ -253,14 +253,15 @@ margin-top: 2rem;
 .settings-select {
   display: flex;
   flex-direction: column;
+  flex: 0.8;
   /* padding: 20px; */
   /* width: 60%; */
-  flex: 0.8;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
 }
 
-.settings-select select {
+.settings-select {
   color: hsl(var(--light-txt) / 0.9);
+  margin-bottom: 20px;
 }
 
 .error-msg {

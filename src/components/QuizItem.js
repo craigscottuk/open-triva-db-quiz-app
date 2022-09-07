@@ -2,7 +2,6 @@ import { React, useState } from 'react';
 import './QuizItem.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
-import { grey } from '@mui/material/colors';
 
 /**
  * QuizItem component renders each quiz question from the data.
@@ -48,7 +47,6 @@ const QuizItem = ({
   const settingsThemeMUI = createTheme({
     palette: {
       mode: 'dark',
-      // primary: grey,
       primary: {
         main: '#171717',
         dark: '#000000',
