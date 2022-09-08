@@ -19,7 +19,7 @@ const settingsThemeMUI = createTheme({
   },
 });
 
-const Settings = ({ quizSettings }) => {
+const Settings = ({ quizSettings, newGame }) => {
   const [numOfQues, setNumOfQues] = useState('');
   const [category, setCategory] = useState('');
   const [difficulty, setdifficulty] = useState('');
@@ -32,8 +32,9 @@ const Settings = ({ quizSettings }) => {
       return;
     } else {
       setError(false);
-      navigate('/quiz');
+      newGame();
       quizSettings(numOfQues, category, difficulty);
+      navigate('/quiz');
     }
   };
 

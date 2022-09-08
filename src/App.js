@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import './App.css';
 import useFetchData from './data/useFetchData';
-import Loader from './components/Loader';
+import Spinner from './components/Spinner';
 import Error from './components/Error';
 import Stats from './components/Stats';
 import QuizItem from './components/QuizItem';
@@ -19,7 +19,6 @@ import Click_MP3 from './sounds/click_11.mp3';
 
 import Settings from './pages/Settings';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NewGame from './components/NewGame';
 import NewGameButton from './components/NewGameButton';
 
 const App = () => {
@@ -32,10 +31,6 @@ const App = () => {
     isGameSet: false,
   });
   const quizSettings = (numOfQues, category, difficulty) => {
-    // restartGame();
-    // setGameState({
-    //   isGameOver: false,
-    // });
     setGameSettings({
       ...gameSettings,
       numOfQues: numOfQues,
@@ -45,17 +40,7 @@ const App = () => {
     });
   };
 
-  console.log(gameSettings);
-
-  //FETCH DATA
-
-  // useFetchData is a custom hook that fetches the quiz data
-  const { quizData, isLoading, isError } = useFetchData(
-    gameSettings.numOfQues,
-    gameSettings.category,
-    gameSettings.difficulty,
-    gameSettings.isGameSet
-  );
+  console.log(gameSettings.isGameSet);
 
   // GAME STATE
 
@@ -65,19 +50,30 @@ const App = () => {
     isGameOver: false,
   });
 
-  // RestartGame function resets the gameState values thus restarting/resetting the game
-  const restartGame = () => {
+  //NEW GAME///
+  const newGame = () => {
     setGameState({
       score: 0,
       quizDataIndex: 0,
       isGameOver: false,
     });
+    setGameSettings({
+      ...gameSettings,
+      isGameSet: false,
+    });
   };
 
-  // LOAD NEXT PAGE
+  //FETCH DATA
 
-  // LoadNextPage function uses spread operator to copy the gameState
-  // and adds 1 to quizDataIndex thus moving to the next question
+  // useFetchData is a custom hook that fetches the quiz data
+  const { quizData, isLoading, isError, isLoaded } = useFetchData(
+    gameSettings.numOfQues,
+    gameSettings.category,
+    gameSettings.difficulty,
+    gameSettings.isGameSet
+  );
+
+  // LOAD NEXT PAGE
   const loadNextPage = () => {
     if (quizDataIndex >= quizData.length - 1) {
       setGameState({
@@ -130,7 +126,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Settings quizSettings={quizSettings} />} />
+        <Route
+          path='/'
+          element={<Settings quizSettings={quizSettings} newGame={newGame} />}
+        />
         <Route
           path='/quiz'
           element={
@@ -146,10 +145,10 @@ const App = () => {
                 )}
               </header>
               <main>
-                {!isGameSet && <NewGameButton />}
+                {!isGameSet && <NewGameButton newGame={newGame} />}
                 {isError && <Error error={isError} />}
-                {isLoading && <Loader isLoading={isLoading} />}
-                {quizData && (
+                {isLoading && isGameSet && <Spinner isLoading={isLoading} />}
+                {isLoaded && isGameSet && (
                   <>
                     {!isGameOver ? (
                       <FadeWrapper>
@@ -172,7 +171,7 @@ const App = () => {
                             key={'EndScreen'}
                             score={score}
                             bestScore={0}
-                            onRetryBtnClick={restartGame}
+                            newGame={newGame}
                           />
                           {playSound([EndGame_MP3, EndGame_WAV])}
                         </FadeTransition>

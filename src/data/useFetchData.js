@@ -5,37 +5,45 @@ function useFetchData(amount, category, difficulty, isGameSet) {
   const [quizData, setQuizData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   //  Fetches quiz data from opentdb.com/api
 
   useEffect(() => {
-    const params = new URLSearchParams({ amount, category, type: 'multiple' });
-    if (difficulty !== '') params.append('difficulty', difficulty);
-    if (isGameSet === true) {
-      setIsLoading(true);
-      const url = `https://opentdb.com/api.php?${params.toString()}`;
-      fetch(url)
-        .then((res) => {
-          if (!res.ok) {
-            throw Error();
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setIsLoading(false);
-          setIsError(false);
+    const params = new URLSearchParams({
+      amount,
+      category,
+      difficulty,
+      type: 'multiple',
+    });
 
-          setQuizData(decodeData(data));
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          setIsError(true);
-          console.log(err.message);
-        });
-    }
-  }, [amount, category, difficulty, isGameSet]);
+    // if (isGameSet === true) {
+    setIsLoaded(false);
+    setIsLoading(true);
+    const url = `https://opentdb.com/api.php?${params.toString()}`;
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) {
+          throw Error();
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setIsLoading(false);
+        setIsError(false);
+        setQuizData(decodeData(data));
+        setIsLoaded(true);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        setIsLoaded(false);
+        setIsError(true);
+        console.log(err.message);
+      });
+    // }
+  }, [category]);
 
-  return { quizData, isLoading, isError };
+  return { quizData, isLoading, isError, isLoaded };
 }
 
 // decodeData function decodes any named and numerical HTML character references in the fetched data using the he encoder/decoder

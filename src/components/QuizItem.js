@@ -1,7 +1,5 @@
 import { React, useState } from 'react';
-import './QuizItem.css';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Button } from '@mui/material';
+import NextButton from './NextButton';
 
 /**
  * QuizItem component renders each quiz question from the data.
@@ -23,13 +21,15 @@ const QuizItem = ({
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const hasPickedAnswer = selectedAnswer !== null;
+  // console.log('Render quizItem = ' + isGameSet);
+  console.log('Render quizItem');
 
   // Creates an array of allAnswers using correct_answer and expanding the incorrect_answers array.
   const allAnswers = [correct_answer, ...incorrect_answers];
 
   // allAnswers are shuffled using sort() and Math.
   const [shuffledAnswers] = useState(() =>
-    allAnswers.sort(() => Math.random() - 0.5)
+    [...allAnswers].sort(() => Math.random() - 0.5)
   );
 
   const selectAnswer = (event) => {
@@ -44,62 +44,38 @@ const QuizItem = ({
     }
   };
 
-  const settingsThemeMUI = createTheme({
-    palette: {
-      mode: 'dark',
-      primary: {
-        main: '#171717',
-        dark: '#000000',
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={settingsThemeMUI}>
-      <div className='quizItem-div'>
-        <p className='sans-question'>{question}</p>
+    <div className='quizItem-div'>
+      <p className='sans-question'>{question}</p>
 
-        <div className='answBtns-div'>
-          {shuffledAnswers &&
-            shuffledAnswers.map((answer, index) => {
-              return (
-                <button
-                  key={index}
-                  onClick={selectAnswer}
-                  className={
-                    !hasPickedAnswer
-                      ? 'answBtn'
-                      : answer === selectedAnswer && answer === correct_answer
-                      ? 'answBtn answBtn--correct'
-                      : answer === selectedAnswer && answer !== correct_answer
-                      ? 'answBtn answBtn--incorrect'
-                      : answer === correct_answer
-                      ? 'answBtn answBtn--reveal-answ'
-                      : 'answBtn answBtn--disabled'
-                  }
-                >
-                  {answer}
-                </button>
-              );
-            })}
-        </div>
-        <Button
-          // className={!hasPickedAnswer ? 'nxtBtn nxtBtn--disabled' : 'nxtBtn'}
-          onClick={onNextBtnClick}
-          disabled={!hasPickedAnswer}
-          style={{ marginTop: '0.8rem' }}
-          variant='contained'
-          color='primary'
-          size='large'
-          disableElevation
-          // sx={{
-          //   backgroundColor: '#181818',
-          // }}
-        >
-          Next
-        </Button>
+      <div className='answBtns-div'>
+        {shuffledAnswers.map((answer, index) => {
+          return (
+            <button
+              key={index}
+              onClick={selectAnswer}
+              className={
+                !hasPickedAnswer
+                  ? 'answBtn'
+                  : answer === selectedAnswer && answer === correct_answer
+                  ? 'answBtn answBtn--correct'
+                  : answer === selectedAnswer && answer !== correct_answer
+                  ? 'answBtn answBtn--incorrect'
+                  : answer === correct_answer
+                  ? 'answBtn answBtn--reveal-answ'
+                  : 'answBtn answBtn--disabled'
+              }
+            >
+              {answer}
+            </button>
+          );
+        })}
       </div>
-    </ThemeProvider>
+      <NextButton
+        onNextBtnClick={onNextBtnClick}
+        hasPickedAnswer={hasPickedAnswer}
+      />
+    </div>
   );
 };
 

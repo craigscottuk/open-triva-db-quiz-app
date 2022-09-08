@@ -8,7 +8,7 @@ import NewGameButton from './NewGameButton';
  * @param {onClick} props.onRetryBtnClick
  */
 
-const EndScreen = ({ score }) => {
+const EndScreen = ({ score, newGame }) => {
   return (
     <div className='end-screen'>
       <p className='quiz-complete'>Quiz complete!</p>
@@ -24,7 +24,7 @@ const EndScreen = ({ score }) => {
         </ul>
       </div>
       <div className='review-restart'>
-        <NewGameButton />
+        <NewGameButton newGame={newGame} />
       </div>
     </div>
   );
