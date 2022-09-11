@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- Stats component renders the score, the current question number and the total number of questions in the game.
+ Stats component renders the score, the category, the current question number and the total number of questions in the game.
  **/
 
 const Stats = ({
@@ -13,7 +13,7 @@ const Stats = ({
   isGameSet,
 }) => {
   return (
-    <div className='game-stats'>
+    <div key={'GameSettings'} className='game-stats'>
       <ul>
         <li className='sans-stat-title'>Score:</li>
         {isLoaded && isGameSet && <li className='sans-stat-value'>{score}</li>}

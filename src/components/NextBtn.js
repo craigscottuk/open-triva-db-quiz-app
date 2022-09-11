@@ -2,7 +2,8 @@ import { React } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
 
-const NextButton = ({ onNextBtnClick, hasUserSelectedAnswer }) => {
+const NextButton = ({ onNextBtnClick, hasPlayerSelectedAnswer }) => {
+  // MUI THEME FOR THE NEXT BUTTON
   const nextBtnMuiTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -17,7 +18,7 @@ const NextButton = ({ onNextBtnClick, hasUserSelectedAnswer }) => {
       <div>
         <Button
           onClick={onNextBtnClick}
-          disabled={!hasUserSelectedAnswer}
+          disabled={!hasPlayerSelectedAnswer}
           style={{ marginTop: '0.8rem', width: '100%' }}
           variant='contained'
           color='primary'

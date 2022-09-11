@@ -13,21 +13,23 @@ const QuizItem = ({
   onAnswerSelected,
   afterAnswerSelected,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const hasUserSelectedAnswer = selectedAnswer !== null;
-
-  // Creates an array of allAnswers using correct_answer and expanding the incorrect_answers array.
+  // COMBINES THE CORRECT ANSWER WITH THE INCORRECT ANSWERS
   const allAnswers = [correct_answer, ...incorrect_answers];
 
-  // allAnswers are shuffled using sort() and Math.
+  // SHUFFLES THE ANSWERS
   const [shuffledAnswers] = useState(() =>
     [...allAnswers].sort(() => Math.random() - 0.5)
   );
 
-  const selectAnswer = (event) => {
-    if (hasUserSelectedAnswer === false) {
+  // THE SELECTED ANSWER STATE
+  const [theSelectedAnswer, setTheSelectedAnswer] = useState(null);
+  const hasPlayerSelectedAnswer = theSelectedAnswer !== null;
+
+  // WHEN USER SELECTS AN ANSWER
+  const onPlayerSelectsAnswer = (event) => {
+    if (hasPlayerSelectedAnswer === false) {
       const playerAnswer = event.target.innerHTML;
-      setSelectedAnswer(playerAnswer);
+      setTheSelectedAnswer(playerAnswer);
       const wasPlayerCorrect = playerAnswer === correct_answer;
       onAnswerSelected(wasPlayerCorrect);
     } else {
@@ -39,19 +41,18 @@ const QuizItem = ({
   return (
     <div className='quizItem-div'>
       <p className='sans-question'>{question}</p>
-
       <div className='answBtns-div'>
         {shuffledAnswers.map((answer, index) => {
           return (
             <button
               key={index}
-              onClick={selectAnswer}
+              onClick={onPlayerSelectsAnswer}
               className={
-                !hasUserSelectedAnswer
+                !hasPlayerSelectedAnswer
                   ? 'answBtn'
-                  : answer === selectedAnswer && answer === correct_answer
+                  : answer === theSelectedAnswer && answer === correct_answer
                   ? 'answBtn answBtn--correct'
-                  : answer === selectedAnswer && answer !== correct_answer
+                  : answer === theSelectedAnswer && answer !== correct_answer
                   ? 'answBtn answBtn--incorrect'
                   : answer === correct_answer
                   ? 'answBtn answBtn--reveal-answ'
@@ -65,7 +66,7 @@ const QuizItem = ({
       </div>
       <NextButton
         onNextBtnClick={onNextBtnClick}
-        hasUserSelectedAnswer={hasUserSelectedAnswer}
+        hasPlayerSelectedAnswer={hasPlayerSelectedAnswer}
       />
     </div>
   );

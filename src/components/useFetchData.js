@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import he from 'he';
 
+/**
+  useFetchData is a custom hook that fetches the quiz data from opentdb.com/api
+ **/
+
 function useFetchData(amount, category, difficulty, isGameSet) {
   const [quizData, setQuizData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  //  Fetches quiz data from opentdb.com/api
 
   useEffect(() => {
     const params = new URLSearchParams({
@@ -16,8 +18,6 @@ function useFetchData(amount, category, difficulty, isGameSet) {
       difficulty,
       type: 'multiple',
     });
-
-    // if (isGameSet === true) {
     setIsLoaded(false);
     setIsLoading(true);
     const url = `https://opentdb.com/api.php?${params.toString()}`;
@@ -40,13 +40,15 @@ function useFetchData(amount, category, difficulty, isGameSet) {
         setIsError(true);
         console.log(err.message);
       });
-    // }
   }, [isGameSet]);
 
   return { quizData, isLoading, isError, isLoaded };
 }
 
-// decodeData function decodes any named and numerical HTML character references in the fetched data using the he encoder/decoder
+/**
+  decodeData function decodes any named and numerical HTML character references in the fetched data using the he encoder/decoder package
+ **/
+
 function decodeData(data) {
   const decodedData = data.results.map((item) => {
     return {

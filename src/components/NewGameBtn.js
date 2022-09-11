@@ -1,26 +1,30 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, createTheme, ThemeProvider } from '@mui/material';
-import { amber } from '@mui/material/colors';
 
 const NewGameButton = ({ newGame }) => {
+  // REACT ROUTER DOM NAVIGATION
+  const navigate = useNavigate();
+
+  // MUI THEME FOR THE NEW GAME BUTTON
   const quizThemeMUI = createTheme({
     palette: {
       mode: 'dark',
-      primary: amber,
+      primary: {
+        main: '#E5C01A',
+        dark: '#E09006',
+      },
     },
   });
-  const navigate = useNavigate();
 
   return (
     <ThemeProvider theme={quizThemeMUI}>
       <div
         style={{
-          width: '100%',
-          height: '100%',
           display: 'grid',
           justifyContent: 'center',
-          alignContent: 'center',
+          alignContent: 'top',
+          marginTop: '1.1rem',
         }}
       >
         <Button

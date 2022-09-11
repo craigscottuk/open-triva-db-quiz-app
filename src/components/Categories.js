@@ -1,3 +1,7 @@
+/**
+ The quiz categories and values that are mapped into the 'Select category' select on the quiz config (./) page. 
+ **/
+
 const Categories = [
   {
     name: 'General Knowledge',

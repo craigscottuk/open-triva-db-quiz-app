@@ -1,35 +1,24 @@
 import { React, useState } from 'react';
 import './App.css';
-import useFetchData from './data/useFetchData';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { FadeWrapper, FadeTransition } from './components/FadeTransitionEffect';
+import { Howl, Howler } from 'howler';
+import useFetchData from './components/useFetchData';
 import Spinner from './components/Spinner';
 import Error from './components/Error';
-import Stats from './components/StatsHeader';
+import GameSettings from './components/GameSettings';
+import GameStats from './components/GameStats';
 import QuizItem from './components/QuizItem';
 import EndScreen from './components/EndScreen';
-import { FadeWrapper, FadeTransition } from './components/FadeTransition';
-import { Howl, Howler } from 'howler';
-import Correct_WAV from './sounds/correct_24.wav';
-import Incorrect_WAV from './sounds/incorrect_15.wav';
-import Click_WAV from './sounds/click_11.wav';
-import EndGame_WAV from './sounds/quiz_end_screen_01.wav';
-import Correct_MP3 from './sounds/correct_24.mp3';
-import Incorrect_MP3 from './sounds/incorrect_15.mp3';
-import EndGame_MP3 from './sounds/quiz_end_screen_01.mp3';
-import Click_MP3 from './sounds/click_11.mp3';
-
-import Settings from './components/GameSettings';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NewGameButton from './components/NewGameBtn';
+import SoundEffectCorrect from './sounds/correct.mp3';
+import SoundEffectIncorrect from './sounds/incorrect.mp3';
+import SoundEffectGameOver from './sounds/gameOver.mp3';
+import SoundEffectDisabledBtn from './sounds/disabled.mp3';
+import Logo from './components/Logo';
 
 const App = () => {
-  // GAME SETTINGS
-
-  const [gameSettings, setGameSettings] = useState({
-    numOfQues: 1,
-    category: 0,
-    difficulty: '',
-    isGameSet: false,
-  });
+  // TAKES THE OPTIONS THE PLAYER CHOSE FROM THE QUIZ CONFIG SELECTS AMD SETS THE GAME SETTINGS STATE WITH THESE OPTIONS
   const quizSettings = (numOfQues, category, difficulty) => {
     setGameSettings({
       ...gameSettings,
@@ -40,17 +29,22 @@ const App = () => {
     });
   };
 
-  console.log(gameSettings.isGameSet);
+  // GAME SETTINGS STATE THAT IS SET FROM QUIZ CONFIG SELECTS - NUMBER OF QUESTIONS, CATEGORY, DIFFICULTY
+  const [gameSettings, setGameSettings] = useState({
+    numOfQues: 1,
+    category: 0,
+    difficulty: '',
+    isGameSet: false,
+  });
 
-  // GAME STATE
-
+  // THE GAME STATE - SCORE, QUESTION NUMBER AND IS GAME OVER?
   const [gameState, setGameState] = useState({
     score: 0,
     quizDataIndex: 0,
     isGameOver: false,
   });
 
-  //NEW GAME///
+  // CREATES A NEW QUIZ GAME
   const newGame = () => {
     setGameState({
       score: 0,
@@ -63,9 +57,9 @@ const App = () => {
     });
   };
 
-  //FETCH DATA
+  const { score, quizDataIndex, isGameOver } = gameState;
 
-  // useFetchData is a custom hook that fetches the quiz data
+  // FETCHES THE QUIZ DATA WITH THE CUSTOM HOOK useFetchData
   const { quizData, isLoading, isError, isLoaded } = useFetchData(
     gameSettings.numOfQues,
     gameSettings.category,
@@ -73,8 +67,12 @@ const App = () => {
     gameSettings.isGameSet
   );
 
-  // LOAD NEXT PAGE
-  const loadNextPage = () => {
+  const { isGameSet, difficulty } = gameSettings;
+  const { question, correct_answer, incorrect_answers } =
+    quizData && quizData[quizDataIndex];
+
+  // LOADS THE NEXT QUESTION OR SETS GAME STATE TO GAME OVER TRUE
+  const loadNextQuestion = () => {
     if (quizDataIndex >= quizData.length - 1) {
       setGameState({
         ...gameState,
@@ -85,8 +83,22 @@ const App = () => {
     }
   };
 
-  // SOUNDS AND SCORE
+  // UPDATES GAME SCORE AND PLAYS THE SOUNDS FOR CORRECT/INCORRECT ANSWERS
+  const onAnswerSelected = (wasPlayerCorrect) => {
+    if (wasPlayerCorrect) {
+      playSound([SoundEffectCorrect]);
+      setGameState((prevGameState) => {
+        return {
+          ...prevGameState,
+          score: score + 1,
+        };
+      });
+    } else if (!wasPlayerCorrect) {
+      playSound([SoundEffectIncorrect]);
+    }
+  };
 
+  // PLAYS THE SOUND EFFECT FROM THE SOURCE
   const playSound = (src) => {
     const sound = new Howl({
       src,
@@ -96,39 +108,24 @@ const App = () => {
     sound.play();
   };
 
-  Howler.volume(0);
-
-  const onAnswerSelected = (wasPlayerCorrect) => {
-    if (wasPlayerCorrect) {
-      playSound([Correct_MP3, Correct_WAV]);
-      setGameState((prevGameState) => {
-        return {
-          ...prevGameState,
-          score: score + 1,
-        };
-      });
-    } else if (!wasPlayerCorrect) {
-      playSound([Incorrect_MP3, Incorrect_WAV]);
-    }
-  };
-
+  // PLAYS THE DISABLED BUTTON SOUND AFTER ANSWER HAS ALREADY BEEN SELECTED
   const afterAnswerSelected = (areButtonsDisabled) => {
     if (areButtonsDisabled) {
-      playSound([Click_MP3, Click_WAV]);
+      playSound([SoundEffectDisabledBtn]);
     }
   };
 
-  const { isGameSet, difficulty } = gameSettings;
-  const { score, quizDataIndex, isGameOver } = gameState;
-  const { question, correct_answer, incorrect_answers } =
-    quizData && quizData[quizDataIndex];
+  // SETS THE SOUND VOLUME OF THE SOUND EFFECTS
+  Howler.volume(0.5);
 
   return (
     <Router>
       <Routes>
         <Route
           path='/'
-          element={<Settings quizSettings={quizSettings} newGame={newGame} />}
+          element={
+            <GameSettings quizSettings={quizSettings} newGame={newGame} />
+          }
         />
         <Route
           path='/quiz'
@@ -136,7 +133,7 @@ const App = () => {
             <div className='app'>
               <header>
                 {!isGameOver && (
-                  <Stats
+                  <GameStats
                     score={score}
                     questionNum={quizDataIndex}
                     isGameOver={isGameOver}
@@ -150,14 +147,20 @@ const App = () => {
               </header>
               <main>
                 {isError && (
-                  <>
+                  <div className='new-game-screen'>
+                    <Logo />
                     <Error error={isError}>
                       There was a problem fetchng the quiz data
                     </Error>
                     <NewGameButton newGame={newGame} />
-                  </>
+                  </div>
                 )}
-                {!isGameSet && <NewGameButton newGame={newGame} />}
+                {!isGameSet && (
+                  <div className='new-game-screen'>
+                    <Logo />
+                    <NewGameButton newGame={newGame} />
+                  </div>
+                )}
                 {isLoading && isGameSet && <Spinner isLoading={isLoading} />}
                 {isLoaded && isGameSet && (
                   <>
@@ -169,7 +172,7 @@ const App = () => {
                             question={question}
                             correct_answer={correct_answer}
                             incorrect_answers={incorrect_answers}
-                            onNextBtnClick={loadNextPage}
+                            onNextBtnClick={loadNextQuestion}
                             onAnswerSelected={onAnswerSelected}
                             afterAnswerSelected={afterAnswerSelected}
                           />
@@ -184,7 +187,7 @@ const App = () => {
                             totalNumOfQuestions={quizData.length}
                             newGame={newGame}
                           />
-                          {playSound([EndGame_MP3, EndGame_WAV])}
+                          {playSound([SoundEffectGameOver])}
                         </FadeTransition>
                       </FadeWrapper>
                     )}

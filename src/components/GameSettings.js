@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Error from './Error';
-import Categories from '../data/Categories';
+import Logo from './Logo';
+import Categories from './Categories';
 import {
   Button,
   createTheme,
@@ -15,8 +16,10 @@ const Settings = ({ quizSettings, newGame }) => {
   const [category, setCategory] = useState('');
   const [difficulty, setdifficulty] = useState('');
   const [error, setError] = useState(false);
+  // REACT ROUTER DOM NAVIGATION
   const navigate = useNavigate();
 
+  // FORM VALIDATION - NAVIGATES TO THE QUIZ AND STARTS NEW GAME
   const handleSubmit = () => {
     if (!numOfQues || !category || !difficulty) {
       setError(true);
@@ -29,6 +32,7 @@ const Settings = ({ quizSettings, newGame }) => {
     }
   };
 
+  // MUI THEME FOR FORM INPUTS AND BUTTON
   const customMuiTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -42,12 +46,8 @@ const Settings = ({ quizSettings, newGame }) => {
   return (
     <ThemeProvider theme={customMuiTheme}>
       <div className='app'>
-        {/* LOGO */}
-        <div className='quiz-logo'>
-          <h1 class='logo'>QUIZ</h1>
-        </div>
+        <Logo />
         <div className='settings-selects'>
-          {/* ERROR MESSAGE */}
           <div
             style={{
               visibility: error ? 'visible' : 'hidden',
@@ -56,7 +56,6 @@ const Settings = ({ quizSettings, newGame }) => {
           >
             <Error>Please set the quiz using the options below</Error>
           </div>
-          {/* QUIZ CONFIG - SELECT INPUT AND START QUIZ BUTTON */}
           <TextField
             select
             label='Select category'
@@ -102,9 +101,6 @@ const Settings = ({ quizSettings, newGame }) => {
             </MenuItem>
             <MenuItem key='15' value='15'>
               15
-            </MenuItem>
-            <MenuItem key='20' value='20'>
-              20
             </MenuItem>
           </TextField>
           <Button

@@ -7,7 +7,7 @@ const Error = ({ children }) => {
     <>
       <div
         style={{
-          width: '100%;',
+          width: '100%',
           height: 'fit-content',
           padding: '0.8rem',
           borderRadius: '0.25rem',

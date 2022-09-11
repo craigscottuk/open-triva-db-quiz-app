@@ -222,16 +222,15 @@ body {
 
 #root {
   flex-grow: 1;
-  /* display: flex; */
-  /* justify-content: center;
-  align-items: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .app {
   height: -webkit-fill-available;
   height: 100%;
   width: 100%;
-  max-width: 65rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -291,8 +290,12 @@ body {
 main {
   flex-grow: 1;
   display: grid;
-  /* flex-direction: column;
-  align-items: end; */
+}
+
+.new-game-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .quizItem-div {

@@ -2,7 +2,7 @@ import React from 'react';
 import GridLoader from 'react-spinners/GridLoader';
 
 /**
- Loader component renders a spinner element from react-spinners
+ Spinner component renders a spinner element from react-spinners
 **/
 
 const Loader = ({ isLoading }) => {
