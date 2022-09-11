@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Error from './Error';
 import Categories from '../data/Categories';
 import {
   Button,
@@ -8,16 +9,6 @@ import {
   TextField,
   ThemeProvider,
 } from '@mui/material';
-
-const settingsThemeMUI = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#E5C01A',
-      dark: '#E09006',
-    },
-  },
-});
 
 const Settings = ({ quizSettings, newGame }) => {
   const [numOfQues, setNumOfQues] = useState('');
@@ -38,15 +29,34 @@ const Settings = ({ quizSettings, newGame }) => {
     }
   };
 
+  const customMuiTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#E5C01A',
+        dark: '#E09006',
+      },
+    },
+  });
+
   return (
-    <ThemeProvider theme={settingsThemeMUI}>
+    <ThemeProvider theme={customMuiTheme}>
       <div className='app'>
-        <div className='settings-select'>
-          {error && (
-            <div className='error-msg'>
-              Please select a category and difficulty
-            </div>
-          )}
+        {/* LOGO */}
+        <div className='quiz-logo'>
+          <h1 class='logo'>QUIZ</h1>
+        </div>
+        <div className='settings-selects'>
+          {/* ERROR MESSAGE */}
+          <div
+            style={{
+              visibility: error ? 'visible' : 'hidden',
+              marginBottom: '0.1rem',
+            }}
+          >
+            <Error>Please set the quiz using the options below</Error>
+          </div>
+          {/* QUIZ CONFIG - SELECT INPUT AND START QUIZ BUTTON */}
           <TextField
             select
             label='Select category'
@@ -55,12 +65,11 @@ const Settings = ({ quizSettings, newGame }) => {
             value={category}
           >
             {Categories.map((category) => (
-              <MenuItem key={category.category} value={category.value}>
-                {category.category}
+              <MenuItem key={category.name} value={category.value}>
+                {category.name}
               </MenuItem>
             ))}
           </TextField>
-
           <TextField
             select
             label='Select difficulty'
@@ -80,7 +89,7 @@ const Settings = ({ quizSettings, newGame }) => {
           </TextField>
           <TextField
             select
-            label='Select number of questions'
+            label='Select amount of questions'
             variant='outlined'
             onChange={(e) => setNumOfQues(e.target.value)}
             value={numOfQues}

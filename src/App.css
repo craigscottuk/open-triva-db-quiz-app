@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+
 :root {
   /* ------------------- */
   /* Custom properties   */
@@ -210,7 +212,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #222;
+  background-color: #151515;
   font-family: var(--ff-sans);
 }
 
@@ -220,9 +222,9 @@ body {
 
 #root {
   flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: center;
+  align-items: center; */
 }
 
 .app {
@@ -232,8 +234,8 @@ body {
   max-width: 65rem;
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  background: linear-gradient(28.19deg, #232526 20.07%, #414345 93.9%);
+  justify-content: flex-end;
+  background: linear-gradient(30deg, #222222 30%, #454545 90%);
   border-radius: var(--app-brdr-radius);
   padding: var(--app-padding);
   margin: var(--app-margin);
@@ -245,31 +247,189 @@ body {
   }
 }
 
-/* 
-.error-msg {
-margin-top: 2rem;
-} */
+.quiz-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-.settings-select {
+.logo {
+  margin-bottom: 0.2rem;
+  font-family: 'Henny Penny';
+  font-size: 5rem;
+  font-weight: 400;
+  background: linear-gradient(180deg, #eac038 30%, #e09006 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.settings-selects {
   display: flex;
   flex-direction: column;
   flex: 0.8;
-  /* padding: 20px; */
-  /* width: 60%; */
-  /* justify-content: space-evenly; */
 }
 
-.settings-select {
-  color: hsl(var(--light-txt) / 0.9);
-  margin-bottom: 20px;
+.settings-selects * {
+  margin-bottom: 0.6rem;
 }
 
-.error-msg {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4;
-  background-color: black;
+.settings-selects button {
+  margin-top: 0.6rem;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.game-stats li {
+  list-style: none;
   text-align: center;
-  color: white;
+}
+
+main {
+  flex-grow: 1;
+  display: grid;
+  /* flex-direction: column;
+  align-items: end; */
+}
+
+.quizItem-div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.end-screen {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.quiz-complete {
+  color: hsl(var(--light-txt) / 0.8);
+  font-family: var(--ff-sans);
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Single column button layout for narrower screens */
+.answBtns-div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--answBtn-gap);
+}
+
+/* -------------------------- */
+/* 2 column / 2 row layout   */
+/* -------------------------- */
+
+/* Changes layout of ansBtns to 2 column, 2 row layout for wider screens */
+@media only screen and (min-width: 650px) {
+  .answBtns-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+/* ------------------ */
+/* AnswBtn classes    */
+/* ------------------ */
+
+/* 1 of 2: AnswBtn default (up/unselected) state */
+/* prettier-ignore */
+.answBtn {
+  width: 100%;
+  padding: var(--answBtn-padding);
+  border-radius: var(--answBtn-brdr-radius);
+  border: 0;
+  font-size: var(--answBtn-txt);
+  line-height: 1.1;
+  cursor: pointer;
+  color: hsl(var(--hue) var(--sat) 10% / 0.6);
+  
+  /* Gradient background fill */
+  background: linear-gradient(204deg,
+    hsl(var(--hue)var(--sat) var(--light)) 0%,
+    hsl(calc(var(--hue) + 6) var(--sat) calc(var(--light) - 10%)) 75%);
+ 
+    /* Drop shadow and button's embossed appearance */
+  box-shadow: 0em 0.5em 0.5em
+      hsl(var(--hue) var(--sat) 5% / 0.3),
+    inset -0.2em -0.5em 1.2em
+      hsl(var(--hue) var(--sat) calc(var(--light) - 10%)),
+    inset -0.2em 0.8em 1.2em 
+      hsl(calc(var(--hue) + 6) var(--sat) var(--light));
+}
+
+/* 2 of 2: Answer button down (selected/pressed) state */
+/* prettier-ignore */
+.answbtn--down {
+  /* Text color is modified slightly */
+  color: hsl(calc(var(--hue) - 10) var(--sat) 16% / 0.6);
+  
+  /* Gradient background fill */
+  background: linear-gradient(180deg,
+    hsl(calc(var(--hue) - 4) var(--sat) 40%) 0%,
+    hsl(calc(var(--hue) - 10) var(--sat) 50%) 100%);
+  /* Drop shadow and button's debossed appearance */
+  box-shadow: 0em 0.1em 0.35em 
+      hsl(var(--hue) var(--sat) 8% / 0.7),
+    inset 0.2em 0.8em 0.5em
+      hsl(calc(var(--hue) - 4) var(--sat), calc(var(--light) - 10%) / 0.8),
+    inset -0.2em -0.2em 0.5em
+      hsl(calc(var(--hue) - 10) var(--sat) var(--light) / -0.9);
+}
+
+/* ------------------------- */
+/* AnswBtn: hover / focus    */
+/* ------------------------- */
+
+/* Hue is modfied to show the correct answer colour */
+.answBtn:hover,
+.answBtn:focus {
+  --sat: calc(
+    var(--default-answBtn-sat) + 10%
+  ); /* adding more saturation to the color mix */
+  --light: calc(
+    var(--default-answBtn-light) + 2%
+  ); /* adding more lightness to the colormix */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* -------------------------------- */
+/* AnswBtn: (in)correct / disabled  */
+/* -------------------------------- */
+
+/* Saturation is modified to show buttons are disabled  */
+.answBtn--disabled,
+.answBtn--disabled:hover,
+.answBtn--disabled:focus {
+  box-shadow: none;
+  --sat: var(--disabled-answBtn-sat);
+}
+
+/* Hue is modfied to show the incorrect answer colour */
+.answBtn--incorrect {
+  --hue: var(--incorrect-answBtn-hue);
+}
+
+/* Hue is modfied to show the correct answer colour */
+.answBtn--correct {
+  --hue: var(--correct-answBtn-hue);
+  transform: scale(1.02);
+  transition: transform 150ms ease-out;
+}
+.answBtn--reveal-answ {
+  --hue: var(--correct-answBtn-hue);
+  transform: scale(1.02);
+  transition: transform 180ms ease-out;
 }

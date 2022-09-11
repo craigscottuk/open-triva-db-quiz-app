@@ -1,11 +1,8 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-// import { AnimatePresence, motion } from 'framer-motion/dist/framer-motion';
 
 /**
- * Wraps around a FadeTransition. FadeTransition is used inside FadeWrapper to create enter and exit transitions for each question.
- * @param {object} props
- * @param {React.Node} props.children
+ Wraps around FadeTransition to create enter/exit transitions for each quiz question and finally the end screen.
  */
 
 function FadeWrapper({ children }) {
@@ -13,10 +10,8 @@ function FadeWrapper({ children }) {
 }
 
 /**
- * Wraps children in an animated div that is set to fade in and out.
- * @param {object} props
- * @param {React.Node} props.children
- */
+ Wraps children (quiz questions) in an animated div that is set to fade in and out.
+**/
 
 function FadeTransition({ children }) {
   return (

@@ -3,10 +3,10 @@ import './App.css';
 import useFetchData from './data/useFetchData';
 import Spinner from './components/Spinner';
 import Error from './components/Error';
-import Stats from './components/Stats';
+import Stats from './components/StatsHeader';
 import QuizItem from './components/QuizItem';
 import EndScreen from './components/EndScreen';
-import { FadeWrapper, FadeTransition } from './components/fadeTransition';
+import { FadeWrapper, FadeTransition } from './components/FadeTransition';
 import { Howl, Howler } from 'howler';
 import Correct_WAV from './sounds/correct_24.wav';
 import Incorrect_WAV from './sounds/incorrect_15.wav';
@@ -17,16 +17,16 @@ import Incorrect_MP3 from './sounds/incorrect_15.mp3';
 import EndGame_MP3 from './sounds/quiz_end_screen_01.mp3';
 import Click_MP3 from './sounds/click_11.mp3';
 
-import Settings from './pages/Settings';
+import Settings from './components/GameSettings';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NewGameButton from './components/NewGameButton';
+import NewGameButton from './components/NewGameBtn';
 
 const App = () => {
   // GAME SETTINGS
 
   const [gameSettings, setGameSettings] = useState({
-    numOfQues: 2,
-    category: 22,
+    numOfQues: 1,
+    category: 0,
     difficulty: '',
     isGameSet: false,
   });
@@ -118,7 +118,7 @@ const App = () => {
     }
   };
 
-  const { isGameSet } = gameSettings;
+  const { isGameSet, difficulty } = gameSettings;
   const { score, quizDataIndex, isGameOver } = gameState;
   const { question, correct_answer, incorrect_answers } =
     quizData && quizData[quizDataIndex];
@@ -138,15 +138,26 @@ const App = () => {
                 {!isGameOver && (
                   <Stats
                     score={score}
-                    questionNum={quizDataIndex + 1}
+                    questionNum={quizDataIndex}
                     isGameOver={isGameOver}
-                    totalQuestions={quizData.length}
+                    totalNumOfQuestions={quizData.length}
+                    isLoaded={isLoaded}
+                    questionItem={quizData[quizDataIndex]}
+                    difficulty={difficulty}
+                    isGameSet={isGameSet}
                   />
                 )}
               </header>
               <main>
+                {isError && (
+                  <>
+                    <Error error={isError}>
+                      There was a problem fetchng the quiz data
+                    </Error>
+                    <NewGameButton newGame={newGame} />
+                  </>
+                )}
                 {!isGameSet && <NewGameButton newGame={newGame} />}
-                {isError && <Error error={isError} />}
                 {isLoading && isGameSet && <Spinner isLoading={isLoading} />}
                 {isLoaded && isGameSet && (
                   <>
@@ -170,7 +181,7 @@ const App = () => {
                           <EndScreen
                             key={'EndScreen'}
                             score={score}
-                            bestScore={0}
+                            totalNumOfQuestions={quizData.length}
                             newGame={newGame}
                           />
                           {playSound([EndGame_MP3, EndGame_WAV])}

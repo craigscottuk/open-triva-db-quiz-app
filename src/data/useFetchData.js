@@ -41,7 +41,7 @@ function useFetchData(amount, category, difficulty, isGameSet) {
         console.log(err.message);
       });
     // }
-  }, [category]);
+  }, [isGameSet]);
 
   return { quizData, isLoading, isError, isLoaded };
 }

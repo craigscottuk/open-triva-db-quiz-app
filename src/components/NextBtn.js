@@ -1,10 +1,9 @@
 import { React } from 'react';
-import './QuizItem.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
 
-const NextButton = ({ onNextBtnClick, hasPickedAnswer }) => {
-  const settingsThemeMUI = createTheme({
+const NextButton = ({ onNextBtnClick, hasUserSelectedAnswer }) => {
+  const nextBtnMuiTheme = createTheme({
     palette: {
       mode: 'dark',
       primary: {
@@ -14,11 +13,11 @@ const NextButton = ({ onNextBtnClick, hasPickedAnswer }) => {
     },
   });
   return (
-    <ThemeProvider theme={settingsThemeMUI}>
+    <ThemeProvider theme={nextBtnMuiTheme}>
       <div>
         <Button
           onClick={onNextBtnClick}
-          disabled={!hasPickedAnswer}
+          disabled={!hasUserSelectedAnswer}
           style={{ marginTop: '0.8rem', width: '100%' }}
           variant='contained'
           color='primary'

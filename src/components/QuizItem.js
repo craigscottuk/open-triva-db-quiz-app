@@ -1,15 +1,9 @@
 import { React, useState } from 'react';
-import NextButton from './NextButton';
+import NextButton from './NextBtn';
 
 /**
- * QuizItem component renders each quiz question from the data.
- * @param {object} props
- * @param {string} props.question
- * @param {string} props.correct_answer
- * @param {string} props.incorrect_answers
- * @param {()=> void} props.onNextBtnClick
- * @param {(boolean)=> void)} props.onAnswerSelected
- */
+  QuizItem component renders each quiz question from the data.
+**/
 
 const QuizItem = ({
   question,
@@ -20,9 +14,7 @@ const QuizItem = ({
   afterAnswerSelected,
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const hasPickedAnswer = selectedAnswer !== null;
-  // console.log('Render quizItem = ' + isGameSet);
-  console.log('Render quizItem');
+  const hasUserSelectedAnswer = selectedAnswer !== null;
 
   // Creates an array of allAnswers using correct_answer and expanding the incorrect_answers array.
   const allAnswers = [correct_answer, ...incorrect_answers];
@@ -33,7 +25,7 @@ const QuizItem = ({
   );
 
   const selectAnswer = (event) => {
-    if (hasPickedAnswer === false) {
+    if (hasUserSelectedAnswer === false) {
       const playerAnswer = event.target.innerHTML;
       setSelectedAnswer(playerAnswer);
       const wasPlayerCorrect = playerAnswer === correct_answer;
@@ -55,7 +47,7 @@ const QuizItem = ({
               key={index}
               onClick={selectAnswer}
               className={
-                !hasPickedAnswer
+                !hasUserSelectedAnswer
                   ? 'answBtn'
                   : answer === selectedAnswer && answer === correct_answer
                   ? 'answBtn answBtn--correct'
@@ -73,7 +65,7 @@ const QuizItem = ({
       </div>
       <NextButton
         onNextBtnClick={onNextBtnClick}
-        hasPickedAnswer={hasPickedAnswer}
+        hasUserSelectedAnswer={hasUserSelectedAnswer}
       />
     </div>
   );
