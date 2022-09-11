@@ -1,13 +1,23 @@
 import React from 'react';
-import { FaExclamation } from 'react-icons/fa';
 
-/** Error component renders an exclamation mark icon and some text */
+/** Error component renders a div with dark background */
 
-const Error = () => {
+const Error = ({ children }) => {
   return (
     <>
-      <FaExclamation size={'4rem'} />
-      <p className='error-msg'>Sorry! Unable to fetch the quiz data.</p>
+      <div
+        style={{
+          width: '100%;',
+          height: 'fit-content',
+          padding: '0.8rem',
+          borderRadius: '0.25rem',
+          backgroundColor: '#212121',
+          textAlign: 'center',
+          color: '#bfbfbf',
+        }}
+      >
+        {children}
+      </div>
     </>
   );
 };
