@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
 
 const NextButton = ({ onNextBtnClick, hasPlayerSelectedAnswer }) => {
-  // MUI THEME FOR THE NEXT BUTTON
+  // // MUI theme for the NEXT button
   const nextBtnMuiTheme = createTheme({
     palette: {
       mode: 'dark',

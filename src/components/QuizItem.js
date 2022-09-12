@@ -13,19 +13,19 @@ const QuizItem = ({
   onAnswerSelected,
   afterAnswerSelected,
 }) => {
-  // COMBINES THE CORRECT ANSWER WITH THE INCORRECT ANSWERS
+  // Combines the correct answer with incorrect answers for each quiz item
   const allAnswers = [correct_answer, ...incorrect_answers];
 
-  // SHUFFLES THE ANSWERS
+  // Shuffles all the answers for that quiz item
   const [shuffledAnswers] = useState(() =>
     [...allAnswers].sort(() => Math.random() - 0.5)
   );
 
-  // THE SELECTED ANSWER STATE
+  // SelectedAnwer state to keep track if player has selected an answer or not
   const [theSelectedAnswer, setTheSelectedAnswer] = useState(null);
   const hasPlayerSelectedAnswer = theSelectedAnswer !== null;
 
-  // WHEN USER SELECTS AN ANSWER
+  // When player selects an answer, find out if the player was correct or not
   const onPlayerSelectsAnswer = (event) => {
     if (hasPlayerSelectedAnswer === false) {
       const playerAnswer = event.target.innerHTML;

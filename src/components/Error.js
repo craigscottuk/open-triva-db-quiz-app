@@ -1,11 +1,12 @@
 import React from 'react';
 
-/** Error component renders a div with dark background */
+/** Error component renders a div with dark background that takes and error message as a child */
 
-const Error = ({ children }) => {
+const Error = ({ children, isError }) => {
   return (
     <>
       <div
+        className={isError && 'bounce-in-animation'}
         style={{
           width: '100%',
           height: 'fit-content',
@@ -14,6 +15,7 @@ const Error = ({ children }) => {
           backgroundColor: '#212121',
           textAlign: 'center',
           color: '#bfbfbf',
+          fontSize: '0.8rem',
         }}
       >
         {children}

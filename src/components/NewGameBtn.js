@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, createTheme, ThemeProvider } from '@mui/material';
 
 const NewGameButton = ({ newGame }) => {
-  // REACT ROUTER DOM NAVIGATION
+  // React Router navigate hook to navigate player to the quiz start page (./)
   const navigate = useNavigate();
 
-  // MUI THEME FOR THE NEW GAME BUTTON
+  // // MUI theme for the NEW GAME button
   const quizThemeMUI = createTheme({
     palette: {
       mode: 'dark',

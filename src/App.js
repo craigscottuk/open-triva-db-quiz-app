@@ -11,14 +11,13 @@ import GameStats from './components/GameStats';
 import QuizItem from './components/QuizItem';
 import EndScreen from './components/EndScreen';
 import NewGameButton from './components/NewGameBtn';
-import SoundEffectCorrect from './sounds/correct.mp3';
-import SoundEffectIncorrect from './sounds/incorrect.mp3';
-import SoundEffectGameOver from './sounds/gameOver.mp3';
-import SoundEffectDisabledBtn from './sounds/disabled.mp3';
+import SoundEffectCorrect from './sounds/Correct.mp3';
+import SoundEffectIncorrect from './sounds/Incorrect.mp3';
+import SoundEffectDisabledBtn from './sounds/Disabled.mp3';
 import Logo from './components/Logo';
 
 const App = () => {
-  // TAKES THE OPTIONS THE PLAYER CHOSE FROM THE QUIZ CONFIG SELECTS AMD SETS THE GAME SETTINGS STATE WITH THESE OPTIONS
+  // Pulls the options the player chose from the select inputs at startup and sets the game settings state the player's custom options
   const quizSettings = (numOfQues, category, difficulty) => {
     setGameSettings({
       ...gameSettings,
@@ -29,7 +28,7 @@ const App = () => {
     });
   };
 
-  // GAME SETTINGS STATE THAT IS SET FROM QUIZ CONFIG SELECTS - NUMBER OF QUESTIONS, CATEGORY, DIFFICULTY
+  // GameSettings state holds the quiz config from startup
   const [gameSettings, setGameSettings] = useState({
     numOfQues: 1,
     category: 0,
@@ -37,14 +36,14 @@ const App = () => {
     isGameSet: false,
   });
 
-  // THE GAME STATE - SCORE, QUESTION NUMBER AND IS GAME OVER?
+  // GameState keeps track of the player's score, the question number and when the game is over
   const [gameState, setGameState] = useState({
     score: 0,
     quizDataIndex: 0,
     isGameOver: false,
   });
 
-  // CREATES A NEW QUIZ GAME
+  // Creates a new quiz game or is run to restart the game
   const newGame = () => {
     setGameState({
       score: 0,
@@ -59,7 +58,7 @@ const App = () => {
 
   const { score, quizDataIndex, isGameOver } = gameState;
 
-  // FETCHES THE QUIZ DATA WITH THE CUSTOM HOOK useFetchData
+  // Fetches the quiz data with using custom hook useFetchData. Data from the gameSettings state is fed into it to query opentdb.com
   const { quizData, isLoading, isError, isLoaded } = useFetchData(
     gameSettings.numOfQues,
     gameSettings.category,
@@ -71,7 +70,7 @@ const App = () => {
   const { question, correct_answer, incorrect_answers } =
     quizData && quizData[quizDataIndex];
 
-  // LOADS THE NEXT QUESTION OR SETS GAME STATE TO GAME OVER TRUE
+  // Loads the next game question or ends the game (gameState.isGameOver: true) if all questions have already been answered
   const loadNextQuestion = () => {
     if (quizDataIndex >= quizData.length - 1) {
       setGameState({
@@ -83,7 +82,7 @@ const App = () => {
     }
   };
 
-  // UPDATES GAME SCORE AND PLAYS THE SOUNDS FOR CORRECT/INCORRECT ANSWERS
+  // Updates the player's score and plays the sounds for correct or incorrect answers when the player selects an answer
   const onAnswerSelected = (wasPlayerCorrect) => {
     if (wasPlayerCorrect) {
       playSound([SoundEffectCorrect]);
@@ -98,7 +97,7 @@ const App = () => {
     }
   };
 
-  // PLAYS THE SOUND EFFECT FROM THE SOURCE
+  // PlaySound takes the mp3 file source and plays the relevant sound effect
   const playSound = (src) => {
     const sound = new Howl({
       src,
@@ -108,14 +107,14 @@ const App = () => {
     sound.play();
   };
 
-  // PLAYS THE DISABLED BUTTON SOUND AFTER ANSWER HAS ALREADY BEEN SELECTED
+  // Plays the disabled button sound if player continues to press the the answer buttons after an answer has already been selected
   const afterAnswerSelected = (areButtonsDisabled) => {
     if (areButtonsDisabled) {
       playSound([SoundEffectDisabledBtn]);
     }
   };
 
-  // SETS THE SOUND VOLUME OF THE SOUND EFFECTS
+  // Howler.volume() sets the loudness of the sound effects globally
   Howler.volume(0.5);
 
   return (
@@ -124,9 +123,16 @@ const App = () => {
         <Route
           path='/'
           element={
-            <GameSettings quizSettings={quizSettings} newGame={newGame} />
+            <>
+              <GameSettings
+                quizSettings={quizSettings}
+                newGame={newGame}
+                playSound={playSound}
+              />
+            </>
           }
         />
+
         <Route
           path='/quiz'
           element={
@@ -187,7 +193,6 @@ const App = () => {
                             totalNumOfQuestions={quizData.length}
                             newGame={newGame}
                           />
-                          {playSound([SoundEffectGameOver])}
                         </FadeTransition>
                       </FadeWrapper>
                     )}

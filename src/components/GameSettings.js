@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Error from './Error';
 import Logo from './Logo';
 import Categories from './Categories';
+import SoundEffectgameStart from '../sounds/GameStart.mp3';
+import SoundEffectDisabledBtn from '../sounds/Disabled.mp3';
 import {
   Button,
   createTheme,
@@ -10,20 +12,21 @@ import {
   TextField,
   ThemeProvider,
 } from '@mui/material';
+import { useEffect } from 'react';
 
-const Settings = ({ quizSettings, newGame }) => {
+const Settings = ({ quizSettings, newGame, playSound }) => {
   const [numOfQues, setNumOfQues] = useState('');
   const [category, setCategory] = useState('');
   const [difficulty, setdifficulty] = useState('');
   const [error, setError] = useState(false);
-  // REACT ROUTER DOM NAVIGATION
+  // React Router navigate hook to navigate player to the quiz (./quiz)
   const navigate = useNavigate();
 
-  // FORM VALIDATION - NAVIGATES TO THE QUIZ AND STARTS NEW GAME
+  // Checks player has set up the game and navigates to the quiz (./quiz)
   const handleSubmit = () => {
     if (!numOfQues || !category || !difficulty) {
       setError(true);
-      return;
+      playSound([SoundEffectDisabledBtn]);
     } else {
       setError(false);
       newGame();
@@ -32,7 +35,7 @@ const Settings = ({ quizSettings, newGame }) => {
     }
   };
 
-  // MUI THEME FOR FORM INPUTS AND BUTTON
+  // MUI theme for form inputs and button
   const customMuiTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -43,18 +46,28 @@ const Settings = ({ quizSettings, newGame }) => {
     },
   });
 
+  // Plays the game intro sound effct on first render
+  useEffect(() => {
+    playSound([SoundEffectgameStart]);
+    newGame();
+  }, []);
+
   return (
     <ThemeProvider theme={customMuiTheme}>
       <div className='app'>
-        <Logo />
+        <div className='bounce-in-animation'>
+          <Logo />
+        </div>
         <div className='settings-selects'>
           <div
             style={{
               visibility: error ? 'visible' : 'hidden',
-              marginBottom: '0.1rem',
+              marginBottom: '0.2rem',
             }}
           >
-            <Error>Please set the quiz using the options below</Error>
+            <Error isError={error}>
+              Please set up your game using the options below
+            </Error>
           </div>
           <TextField
             select

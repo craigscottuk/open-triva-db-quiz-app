@@ -12,6 +12,7 @@ function useFetchData(amount, category, difficulty, isGameSet) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // URL search params are taken form the quiz config selects on at game start
     const params = new URLSearchParams({
       amount,
       category,
