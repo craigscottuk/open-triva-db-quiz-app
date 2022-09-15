@@ -2,11 +2,11 @@ import React from 'react';
 
 /** Error component renders a div with dark background that takes and error message as a child */
 
-const Error = ({ children, isError }) => {
+const Error = ({ children, isValidationError }) => {
   return (
     <>
       <div
-        className={isError && 'bounce-in-animation'}
+        className={isValidationError && 'bounce-in-animation'}
         style={{
           width: '100%',
           height: 'fit-content',

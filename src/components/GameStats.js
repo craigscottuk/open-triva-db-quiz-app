@@ -15,8 +15,15 @@ const Stats = ({
   return (
     <div key={'GameSettings'} className='game-stats'>
       <ul>
-        <li className='sans-stat-title'>Score:</li>
-        {isLoaded && isGameSet && <li className='sans-stat-value'>{score}</li>}
+        <li className='sans-stat-title'>Question:</li>
+        {isLoaded && isGameSet && (
+          <li className='sans-stat-value'>
+            {questionNum + 1}
+            <span className='sans-stat-value-small'>
+              /{totalNumOfQuestions}
+            </span>
+          </li>
+        )}
       </ul>
       <ul>
         <li className='sans-stat-title'>Category:</li>
@@ -31,15 +38,8 @@ const Stats = ({
         )}
       </ul>
       <ul>
-        <li className='sans-stat-title'>Question:</li>
-        {isLoaded && isGameSet && (
-          <li className='sans-stat-value'>
-            {questionNum + 1}
-            <span className='sans-stat-value-small'>
-              /{totalNumOfQuestions}
-            </span>
-          </li>
-        )}
+        <li className='sans-stat-title'>Score:</li>
+        {isLoaded && isGameSet && <li className='sans-stat-value'>{score}</li>}
       </ul>
     </div>
   );

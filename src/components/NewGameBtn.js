@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, createTheme, ThemeProvider } from '@mui/material';
 
-const NewGameButton = ({ newGame }) => {
+const NewGameBtn = ({ newGame }) => {
   // React Router navigate hook to navigate player to the quiz start page (./)
   const navigate = useNavigate();
 
@@ -43,4 +43,4 @@ const NewGameButton = ({ newGame }) => {
   );
 };
 
-export default NewGameButton;
+export default NewGameBtn;

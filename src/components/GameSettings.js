@@ -18,17 +18,17 @@ const Settings = ({ quizSettings, newGame, playSound }) => {
   const [numOfQues, setNumOfQues] = useState('');
   const [category, setCategory] = useState('');
   const [difficulty, setdifficulty] = useState('');
-  const [error, setError] = useState(false);
+  const [isValidationError, setIsValidationError] = useState(false);
   // React Router navigate hook to navigate player to the quiz (./quiz)
   const navigate = useNavigate();
 
   // Checks player has set up the game and navigates to the quiz (./quiz)
   const handleSubmit = () => {
     if (!numOfQues || !category || !difficulty) {
-      setError(true);
+      setIsValidationError(true);
       playSound([SoundEffectDisabledBtn]);
     } else {
-      setError(false);
+      setIsValidationError(false);
       newGame();
       quizSettings(numOfQues, category, difficulty);
       navigate('/quiz');
@@ -61,11 +61,11 @@ const Settings = ({ quizSettings, newGame, playSound }) => {
         <div className='settings-selects'>
           <div
             style={{
-              visibility: error ? 'visible' : 'hidden',
+              visibility: isValidationError ? 'visible' : 'hidden',
               marginBottom: '0.2rem',
             }}
           >
-            <Error isError={error}>
+            <Error isValidationError={isValidationError}>
               Please set up your game using the options below
             </Error>
           </div>

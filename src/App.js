@@ -10,7 +10,7 @@ import GameSettings from './components/GameSettings';
 import GameStats from './components/GameStats';
 import QuizItem from './components/QuizItem';
 import EndScreen from './components/EndScreen';
-import NewGameButton from './components/NewGameBtn';
+import NewGameBtn from './components/NewGameBtn';
 import SoundEffectCorrect from './sounds/Correct.mp3';
 import SoundEffectIncorrect from './sounds/Incorrect.mp3';
 import SoundEffectDisabledBtn from './sounds/Disabled.mp3';
@@ -158,13 +158,13 @@ const App = () => {
                     <Error error={isError}>
                       There was a problem fetchng the quiz data
                     </Error>
-                    <NewGameButton newGame={newGame} />
+                    <NewGameBtn newGame={newGame} />
                   </div>
                 )}
                 {!isGameSet && (
                   <div className='new-game-screen'>
                     <Logo />
-                    <NewGameButton newGame={newGame} />
+                    <NewGameBtn newGame={newGame} />
                   </div>
                 )}
                 {isLoading && isGameSet && <Spinner isLoading={isLoading} />}
